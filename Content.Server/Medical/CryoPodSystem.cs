@@ -28,6 +28,7 @@ public sealed partial class CryoPodSystem : SharedCryoPodSystem
     [Dependency] private readonly SharedUserInterfaceSystem _uiSystem = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainerSystem = default!;
     [Dependency] private readonly SleepingSystem _sleeping = default!; // Shitmed
+    [Dependency] private readonly HealthAnalyzerSystem _healthAnalyzerSystem = default!;
 
     public override void Initialize()
     {
@@ -49,7 +50,7 @@ public sealed partial class CryoPodSystem : SharedCryoPodSystem
 
         if (TryComp<HealthAnalyzerComponent>(entity, out var healthAnalyzer))
         {
-            healthAnalyzer.ScannedEntity = entity.Comp.BodyContainer.ContainedEntity;
+            _healthAnalyzerSystem.BeginAnalyzingEntity((entity.Owner, healthAnalyzer), entity.Comp.BodyContainer.ContainedEntity);
         }
 
         // TODO: This should be a state my dude
@@ -107,7 +108,7 @@ public sealed partial class CryoPodSystem : SharedCryoPodSystem
     {
         if (TryComp<HealthAnalyzerComponent>(cryoPod.Owner, out var healthAnalyzer))
         {
-            healthAnalyzer.ScannedEntity = null;
+            _healthAnalyzerSystem.BeginAnalyzingEntity((cryoPod.Owner, healthAnalyzer), null);
         }
 
         // if body is ejected - no need to display health-analyzer
