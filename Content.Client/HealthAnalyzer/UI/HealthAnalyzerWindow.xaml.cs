@@ -114,8 +114,8 @@ namespace Content.Client.HealthAnalyzer.UI
 
         // Shitmed Change Start
         private readonly WoundSystem _wound;
-        public event Action<TargetBodyPart?, EntityUid>? OnBodyPartSelected;
-        public event Action<HealthAnalyzerMode, EntityUid>? OnModeChanged;
+        public event Action<TargetBodyPart?>? OnBodyPartSelected;
+        public event Action<HealthAnalyzerMode>? OnModeChanged;
         private EntityUid _spriteViewEntity;
 
         [ValidatePrototypeId<EntityPrototype>]
@@ -169,7 +169,7 @@ namespace Content.Client.HealthAnalyzer.UI
             if (_target == null)
                 return;
 
-            OnBodyPartSelected?.Invoke(part, _target.Value);
+            OnBodyPartSelected?.Invoke(part);
         }
 
         public void SetMode(HealthAnalyzerMode mode)
@@ -177,7 +177,7 @@ namespace Content.Client.HealthAnalyzer.UI
             if (_target == null)
                 return;
 
-            OnModeChanged?.Invoke(mode, _target.Value);
+            OnModeChanged?.Invoke(mode);
         }
 
         public void ResetBodyPart()
@@ -185,7 +185,7 @@ namespace Content.Client.HealthAnalyzer.UI
             if (_target == null)
                 return;
 
-            OnBodyPartSelected?.Invoke(null, _target.Value);
+            OnBodyPartSelected?.Invoke(null);
         }
 
         public void SetActiveButtons(bool isHumanoid)

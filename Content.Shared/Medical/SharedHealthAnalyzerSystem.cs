@@ -117,7 +117,10 @@ public abstract class SharedHealthAnalyzerSystem : EntitySystem
     private void OnToggled(Entity<HealthAnalyzerComponent> ent, ref ItemToggledEvent args)
     {
         if (!args.Activated && ent.Comp.ScannedEntity is { } patient)
+        {
             StopAnalyzingEntity(ent, patient);
+            CloseUserInterface(ent);
+        }
     }
 
     /// <summary>
@@ -125,16 +128,20 @@ public abstract class SharedHealthAnalyzerSystem : EntitySystem
     /// </summary>
     private void OnDropped(Entity<HealthAnalyzerComponent> uid, ref DroppedEvent args)
     {
-        if (uid.Comp.ScannedEntity is { } patient)
-            _toggle.TryDeactivate(uid.Owner);
+        _toggle.TryDeactivate(uid.Owner);
     }
 
-    protected virtual void OpenUserInterface(EntityUid user, EntityUid analyzer)
+    private void OpenUserInterface(EntityUid user, EntityUid analyzer)
     {
         if (!_uiSystem.HasUi(analyzer, HealthAnalyzerUiKey.Key))
             return;
 
         _uiSystem.OpenUi(analyzer, HealthAnalyzerUiKey.Key, user);
+    }
+
+    private void CloseUserInterface(EntityUid analyzer)
+    {
+        _uiSystem.CloseUi(analyzer, HealthAnalyzerUiKey.Key);
     }
 
     /// <summary>

@@ -56,10 +56,12 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+using Content.Client.Body.Systems;
 using Content.Shared.Medical;
 using Content.Shared.MedicalScanner;
 using Content.Shared._Shitmed.Targeting; // Shitmed Change
-using Content.Shared._Shitmed.Medical.HealthAnalyzer; // Shitmed Change
+using Content.Shared._Shitmed.Medical.HealthAnalyzer;
+using Content.Shared.Body.Systems; // Shitmed Change
 using JetBrains.Annotations;
 using Robust.Client.UserInterface;
 using Robust.Shared.Utility;
@@ -70,8 +72,11 @@ namespace Content.Client.HealthAnalyzer.UI;
 public sealed class HealthAnalyzerBoundUserInterface : BoundUserInterface
 {
     private readonly SharedHealthAnalyzerSystem _sharedHealthAnalyzer = default!;
+    private readonly SharedBodySystem _body = default!;
     private readonly EntityUid _owner = default!;
     private EntityUid? _target = null;
+    private HealthAnalyzerMode _mode = HealthAnalyzerMode.Body;
+    private EntityUid? _selectedBodypart = null;
 
     [ViewVariables]
     private HealthAnalyzerWindow? _window;
@@ -79,6 +84,7 @@ public sealed class HealthAnalyzerBoundUserInterface : BoundUserInterface
     public HealthAnalyzerBoundUserInterface(EntityUid owner, Enum uiKey) : base(owner, uiKey)
     {
         _sharedHealthAnalyzer = EntMan.System<SharedHealthAnalyzerSystem>();
+        _body = EntMan.System<SharedBodySystem>();
         _owner = owner;
     }
 
@@ -87,8 +93,8 @@ public sealed class HealthAnalyzerBoundUserInterface : BoundUserInterface
         base.Open();
 
         _window = this.CreateWindow<HealthAnalyzerWindow>();
-        _window.OnBodyPartSelected += SendBodyPartMessage; // Shitmed Change
-        _window.OnModeChanged += SendModeMessage;
+        _window.OnBodyPartSelected += OnBodyPartSelected; // Shitmed Change
+        _window.OnModeChanged += OnModeChanged;
         _window.Title = EntMan.GetComponent<MetaDataComponent>(Owner).EntityName;
 
         if (!EntMan.TryGetComponent<HealthAnalyzerComponent>(_owner, out var comp))
@@ -104,7 +110,7 @@ public sealed class HealthAnalyzerBoundUserInterface : BoundUserInterface
         if (_target is null || _window is null)
             return;
 
-        var state = _sharedHealthAnalyzer.GetState(_owner, _target.Value, true, HealthAnalyzerMode.Body);
+        var state = _sharedHealthAnalyzer.GetState(_owner, _target.Value, true, _mode, _selectedBodypart);
         switch (state)
         {
             case null:
@@ -121,10 +127,30 @@ public sealed class HealthAnalyzerBoundUserInterface : BoundUserInterface
         }
     }
 
-    // Shitmed Change Start
-    private void SendBodyPartMessage(TargetBodyPart? part, EntityUid target) => SendMessage(new HealthAnalyzerPartMessage(EntMan.GetNetEntity(target), part ?? null));
+    private void OnModeChanged(HealthAnalyzerMode mode)
+    {
+        _mode = mode;
+        Update();
+    }
 
-    private void SendModeMessage(HealthAnalyzerMode mode, EntityUid target) => SendMessage(new HealthAnalyzerModeSelectedMessage(EntMan.GetNetEntity(target), mode));
+    private void OnBodyPartSelected(TargetBodyPart? bodypart)
+    {
+        if (bodypart == null)
+        {
+            _selectedBodypart = null;
+            Update();
+            return;
+        }
+
+        if (_target is null)
+            return;
+
+        var (targetType, targetSymmetry) = _body.ConvertTargetBodyPart(bodypart);
+        var firstPart = _body.GetBodyChildrenOfType(_target.Value, targetType, symmetry: targetSymmetry).FirstOrNull()?.Id;
+        _selectedBodypart = firstPart;
+        Update();
+    }
+
     protected override void Dispose(bool disposing)
     {
         base.Dispose(disposing);
@@ -132,7 +158,10 @@ public sealed class HealthAnalyzerBoundUserInterface : BoundUserInterface
             return;
 
         if (_window != null)
-            _window.OnBodyPartSelected -= SendBodyPartMessage;
+        {
+            _window.OnModeChanged -= OnModeChanged;
+            _window.OnBodyPartSelected += OnBodyPartSelected;
+        }
 
         _window?.Dispose();
     }
