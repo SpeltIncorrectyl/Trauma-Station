@@ -64,6 +64,7 @@ using Content.Shared._Shitmed.Medical.HealthAnalyzer;
 using Content.Shared.Body.Systems; // Shitmed Change
 using JetBrains.Annotations;
 using Robust.Client.UserInterface;
+using Robust.Shared.Physics;
 using Robust.Shared.Utility;
 
 namespace Content.Client.HealthAnalyzer.UI;
@@ -74,9 +75,11 @@ public sealed class HealthAnalyzerBoundUserInterface : BoundUserInterface
     private readonly SharedHealthAnalyzerSystem _sharedHealthAnalyzer = default!;
     private readonly SharedBodySystem _body = default!;
     private readonly EntityUid _owner = default!;
+    private readonly HealthAnalyzerComponent _comp = default!;
     private EntityUid? _target = null;
     private HealthAnalyzerMode _mode = HealthAnalyzerMode.Body;
     private EntityUid? _selectedBodypart = null;
+    private bool _inRange = true;
 
     [ViewVariables]
     private HealthAnalyzerWindow? _window;
@@ -86,6 +89,7 @@ public sealed class HealthAnalyzerBoundUserInterface : BoundUserInterface
         _sharedHealthAnalyzer = EntMan.System<SharedHealthAnalyzerSystem>();
         _body = EntMan.System<SharedBodySystem>();
         _owner = owner;
+        _comp = EntMan.GetComponent<HealthAnalyzerComponent>(_owner);
     }
 
     protected override void Open()
@@ -96,21 +100,26 @@ public sealed class HealthAnalyzerBoundUserInterface : BoundUserInterface
         _window.OnBodyPartSelected += OnBodyPartSelected; // Shitmed Change
         _window.OnModeChanged += OnModeChanged;
         _window.Title = EntMan.GetComponent<MetaDataComponent>(Owner).EntityName;
-
-        if (!EntMan.TryGetComponent<HealthAnalyzerComponent>(_owner, out var comp))
-            return;
-        _target = comp.ScannedEntity;
-
-        Update();
+        _target = _comp.ScannedEntity;
+        UpdateScanner();
     }
 
-    public override void Update()
+    public void SetTarget(EntityUid target)
     {
-        base.Update();
-        if (_target is null || _window is null)
+        _target = target;
+        _mode = HealthAnalyzerMode.Body;
+        _selectedBodypart = null;
+        UpdateScanner();
+    }
+
+    public void UpdateScanner(bool inRange = true)
+    {
+        if (_target is null || _window is null || !_inRange && !inRange)
             return;
 
-        var state = _sharedHealthAnalyzer.GetState(_owner, _target.Value, true, _mode, _selectedBodypart);
+        var state = _sharedHealthAnalyzer.GetState(_owner, _target.Value, inRange, _mode, _selectedBodypart);
+        _inRange = inRange;
+
         switch (state)
         {
             case null:

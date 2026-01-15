@@ -85,12 +85,13 @@ public abstract class SharedHealthAnalyzerSystem : EntitySystem
             }
 
             component.NextUpdate = _timing.CurTime + component.UpdateInterval;
+            Log.Debug("scanner update");
             Dirty(uid, component);
-            UpdateUi(uid);
+            UpdateUi((uid, component));
         }
     }
 
-    protected virtual void UpdateUi(EntityUid entity) {}
+    protected virtual void UpdateUi(Entity<HealthAnalyzerComponent> entity) {}
 
     /// <summary>
     /// Trigger the doafter for scanning
@@ -176,7 +177,7 @@ public abstract class SharedHealthAnalyzerSystem : EntitySystem
     /// <param name="healthAnalyzer">The health analyzer that should receive the updates</param>
     /// <param name="target">The entity to start analyzing</param>
     /// <param name="part">Shitmed Change: The body part to analyze, if any</param>
-    public void BeginAnalyzingEntity(Entity<HealthAnalyzerComponent> healthAnalyzer, EntityUid? target, EntityUid? part = null)
+    public virtual void BeginAnalyzingEntity(Entity<HealthAnalyzerComponent> healthAnalyzer, EntityUid? target, EntityUid? part = null)
     {
         //Link the health analyzer to the scanned entity
         healthAnalyzer.Comp.ScannedEntity = target;
@@ -186,8 +187,11 @@ public abstract class SharedHealthAnalyzerSystem : EntitySystem
         if (target is null)
             return;
 
+        Retarget(healthAnalyzer, target.Value);
         _toggle.TryActivate(healthAnalyzer.Owner);
     }
+
+    protected virtual void Retarget(Entity<HealthAnalyzerComponent> healthAnalyzer, EntityUid target) {}
 
     /// <summary>
     /// Remove the analyzer from the active list, and remove the component if it has no active analyzers
