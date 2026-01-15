@@ -15,7 +15,7 @@ namespace Content.Shared._Shitmed.Medical.HealthAnalyzer;
 
 // Base message that contains common data for all Modes
 [Serializable, NetSerializable]
-public abstract class HealthAnalyzerBaseMessage : BoundUserInterfaceMessage
+public abstract class HealthAnalyzerBaseState
 {
     public readonly NetEntity? TargetEntity;
     public readonly float Temperature;
@@ -26,7 +26,7 @@ public abstract class HealthAnalyzerBaseMessage : BoundUserInterfaceMessage
     public Dictionary<TargetBodyPart, bool> Bleeding;
     public readonly FixedPoint2 VitalDamage; // Goobstation
 
-    public HealthAnalyzerBaseMessage(
+    public HealthAnalyzerBaseState(
         NetEntity? targetEntity,
         float temperature,
         float bloodLevel,
@@ -49,14 +49,14 @@ public abstract class HealthAnalyzerBaseMessage : BoundUserInterfaceMessage
 
 // Body Mode message
 [Serializable, NetSerializable]
-public sealed class HealthAnalyzerBodyMessage : HealthAnalyzerBaseMessage
+public sealed class HealthAnalyzerBodyState : HealthAnalyzerBaseState
 {
     public readonly bool? Unrevivable;
     public readonly NetEntity? SelectedPart;
     public readonly Dictionary<NetEntity, List<WoundableTraumaData>> Traumas;
     public readonly Dictionary<NetEntity, FixedPoint2> NervePainFeels;
 
-    public HealthAnalyzerBodyMessage(
+    public HealthAnalyzerBodyState(
         NetEntity? targetEntity,
         float temperature,
         float bloodLevel,
@@ -79,11 +79,11 @@ public sealed class HealthAnalyzerBodyMessage : HealthAnalyzerBaseMessage
 
 // Organs Mode message
 [Serializable, NetSerializable]
-public sealed class HealthAnalyzerOrgansMessage : HealthAnalyzerBaseMessage
+public sealed class HealthAnalyzerOrgansState : HealthAnalyzerBaseState
 {
     public readonly Dictionary<NetEntity, OrganTraumaData> Organs;
 
-    public HealthAnalyzerOrgansMessage(
+    public HealthAnalyzerOrgansState(
         NetEntity? targetEntity,
         float temperature,
         float bloodLevel,
@@ -100,11 +100,11 @@ public sealed class HealthAnalyzerOrgansMessage : HealthAnalyzerBaseMessage
 
 // Chemicals Mode message
 [Serializable, NetSerializable]
-public sealed class HealthAnalyzerChemicalsMessage : HealthAnalyzerBaseMessage
+public sealed class HealthAnalyzerChemicalsState : HealthAnalyzerBaseState
 {
     public readonly Dictionary<NetEntity, Solution> Solutions;
 
-    public HealthAnalyzerChemicalsMessage(
+    public HealthAnalyzerChemicalsState(
         NetEntity? targetEntity,
         float temperature,
         float bloodLevel,

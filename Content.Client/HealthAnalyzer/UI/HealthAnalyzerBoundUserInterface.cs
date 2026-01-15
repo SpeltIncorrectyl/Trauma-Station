@@ -56,70 +56,84 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+using Content.Shared.Medical;
 using Content.Shared.MedicalScanner;
 using Content.Shared._Shitmed.Targeting; // Shitmed Change
 using Content.Shared._Shitmed.Medical.HealthAnalyzer; // Shitmed Change
 using JetBrains.Annotations;
 using Robust.Client.UserInterface;
+using Robust.Shared.Utility;
 
-namespace Content.Client.HealthAnalyzer.UI
+namespace Content.Client.HealthAnalyzer.UI;
+
+[UsedImplicitly]
+public sealed class HealthAnalyzerBoundUserInterface : BoundUserInterface
 {
-    [UsedImplicitly]
-    public sealed class HealthAnalyzerBoundUserInterface : BoundUserInterface
+    private readonly HealthAnalyzerSystem _healthAnalyzer = default!;
+    private readonly EntityUid _owner = default!;
+    private EntityUid? _target = null;
+
+    [ViewVariables]
+    private HealthAnalyzerWindow? _window;
+
+    public HealthAnalyzerBoundUserInterface(EntityUid owner, Enum uiKey) : base(owner, uiKey)
     {
-        [ViewVariables]
-        private HealthAnalyzerWindow? _window;
-
-        public HealthAnalyzerBoundUserInterface(EntityUid owner, Enum uiKey) : base(owner, uiKey)
-        {
-        }
-
-        protected override void Open()
-        {
-            base.Open();
-
-            _window = this.CreateWindow<HealthAnalyzerWindow>();
-            _window.OnBodyPartSelected += SendBodyPartMessage; // Shitmed Change
-            _window.OnModeChanged += SendModeMessage;
-            _window.Title = EntMan.GetComponent<MetaDataComponent>(Owner).EntityName;
-        }
-
-
-        protected override void ReceiveMessage(BoundUserInterfaceMessage message)
-        {
-            if (_window == null)
-                return;
-
-            switch (message)
-            {
-                case HealthAnalyzerBodyMessage bodyMessage:
-                    _window.Populate(bodyMessage);
-                    break;
-                case HealthAnalyzerOrgansMessage organsMessage:
-                    _window.Populate(organsMessage);
-                    break;
-                case HealthAnalyzerChemicalsMessage chemicalsMessage:
-                    _window.Populate(chemicalsMessage);
-                    break;
-            }
-        }
-
-        // Shitmed Change Start
-        private void SendBodyPartMessage(TargetBodyPart? part, EntityUid target) => SendMessage(new HealthAnalyzerPartMessage(EntMan.GetNetEntity(target), part ?? null));
-
-        private void SendModeMessage(HealthAnalyzerMode mode, EntityUid target) => SendMessage(new HealthAnalyzerModeSelectedMessage(EntMan.GetNetEntity(target), mode));
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-            if (!disposing)
-                return;
-
-            if (_window != null)
-                _window.OnBodyPartSelected -= SendBodyPartMessage;
-
-            _window?.Dispose();
-        }
-
-        // Shitmed Change End
+        _healthAnalyzer = EntMan.System<HealthAnalyzerSystem>();
+        _owner = owner;
     }
+
+    protected override void Open()
+    {
+        base.Open();
+
+        _window = this.CreateWindow<HealthAnalyzerWindow>();
+        _window.OnBodyPartSelected += SendBodyPartMessage; // Shitmed Change
+        _window.OnModeChanged += SendModeMessage;
+        _window.Title = EntMan.GetComponent<MetaDataComponent>(Owner).EntityName;
+
+        if (!EntMan.TryGetComponent<HealthAnalyzerComponent>(_owner, out var comp))
+            return;
+        _target = comp.ScannedEntity;
+    }
+
+    public override void Update()
+    {
+        base.Update();
+        if (_target is null || _window is null)
+            return;
+
+        var state = _healthAnalyzer.GetState(_owner, _target.Value, true, HealthAnalyzerMode.Body);
+        switch (state)
+        {
+            case null:
+                return;
+            case HealthAnalyzerBodyState body:
+                _window.Populate(body);
+                break;
+            case HealthAnalyzerChemicalsState chemicals:
+                _window.Populate(chemicals);
+                break;
+            case HealthAnalyzerOrgansState organs:
+                _window.Populate(organs);
+                break;
+        }
+    }
+
+    // Shitmed Change Start
+    private void SendBodyPartMessage(TargetBodyPart? part, EntityUid target) => SendMessage(new HealthAnalyzerPartMessage(EntMan.GetNetEntity(target), part ?? null));
+
+    private void SendModeMessage(HealthAnalyzerMode mode, EntityUid target) => SendMessage(new HealthAnalyzerModeSelectedMessage(EntMan.GetNetEntity(target), mode));
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        if (!disposing)
+            return;
+
+        if (_window != null)
+            _window.OnBodyPartSelected -= SendBodyPartMessage;
+
+        _window?.Dispose();
+    }
+
+    // Shitmed Change End
 }

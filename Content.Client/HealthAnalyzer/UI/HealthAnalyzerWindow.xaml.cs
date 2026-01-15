@@ -194,7 +194,7 @@ namespace Content.Client.HealthAnalyzer.UI
                 button.Value.Visible = isHumanoid;
         }
 
-        public bool TrySetupEntity(HealthAnalyzerBaseMessage msg)
+        public bool TrySetupEntity(HealthAnalyzerBaseState msg)
         {
             if (_target is null)
             {
@@ -257,7 +257,7 @@ namespace Content.Client.HealthAnalyzer.UI
         }
 
         // All of this shit got fucked with, we're cooked hometh :wilted_rose: shitmod when
-        public void Populate(HealthAnalyzerBodyMessage msg)
+        public void Populate(HealthAnalyzerBodyState msg)
         {
             _target = _entityManager.GetEntity(msg.TargetEntity);
             EntityUid? part = msg.SelectedPart != null ? _entityManager.GetEntity(msg.SelectedPart.Value) : null;
@@ -378,7 +378,7 @@ namespace Content.Client.HealthAnalyzer.UI
                 });
             }
         }
-        public void Populate(HealthAnalyzerOrgansMessage msg)
+        public void Populate(HealthAnalyzerOrgansState msg)
         {
             _target = _entityManager.GetEntity(msg.TargetEntity);
 
@@ -431,7 +431,7 @@ namespace Content.Client.HealthAnalyzer.UI
             }
         }
 
-        public void Populate(HealthAnalyzerChemicalsMessage msg)
+        public void Populate(HealthAnalyzerChemicalsState msg)
         {
             _target = _entityManager.GetEntity(msg.TargetEntity);
 

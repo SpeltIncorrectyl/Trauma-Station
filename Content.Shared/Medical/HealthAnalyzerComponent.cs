@@ -25,9 +25,9 @@
 using Robust.Shared.Audio;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 using Content.Shared._Shitmed.Medical.HealthAnalyzer;
-using Content.Shared.Medical.Cryogenics;
+using Robust.Shared.GameStates;
 
-namespace Content.Server.Medical.Components;
+namespace Content.Shared.Medical;
 
 /// <summary>
 /// After scanning, retrieves the target Uid to use with its related UI.
@@ -35,27 +35,26 @@ namespace Content.Server.Medical.Components;
 /// <remarks>
 /// Requires <c>ItemToggleComponent</c>.
 /// </remarks>
-[RegisterComponent, AutoGenerateComponentPause]
+[RegisterComponent, AutoGenerateComponentPause, NetworkedComponent, AutoGenerateComponentState]
 [Access(typeof(HealthAnalyzerSystem))]
 public sealed partial class HealthAnalyzerComponent : Component
 {
     /// <summary>
     /// When should the next update be sent for the patient
     /// </summary>
-    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer))]
-    [AutoPausedField]
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField, AutoNetworkedField]
     public TimeSpan NextUpdate = TimeSpan.Zero;
 
     /// <summary>
     /// The delay between patient health updates
     /// </summary>
-    [DataField]
+    [DataField, AutoNetworkedField]
     public TimeSpan UpdateInterval = TimeSpan.FromSeconds(1);
 
     /// <summary>
     /// How long it takes to scan someone.
     /// </summary>
-    [DataField]
+    [DataField, AutoNetworkedField]
     public TimeSpan ScanDelay = TimeSpan.FromSeconds(0.8);
 
     /// <summary>
@@ -67,36 +66,36 @@ public sealed partial class HealthAnalyzerComponent : Component
     /// <summary>
     /// Shitmed Change: The body part that is currently being scanned.
     /// </summary>
-    [DataField]
+    [DataField, AutoNetworkedField]
     public EntityUid? CurrentBodyPart;
 
     /// <summary>
     /// The maximum range in tiles at which the analyzer can receive continuous updates, a value of null will be infinite range
     /// </summary>
-    [DataField]
+    [DataField, AutoNetworkedField]
     public float? MaxScanRange = 2.5f;
 
     /// <summary>
     /// Sound played on scanning begin
     /// </summary>
-    [DataField]
+    [DataField, AutoNetworkedField]
     public SoundSpecifier? ScanningBeginSound;
 
     /// <summary>
     /// Sound played on scanning end
     /// </summary>
-    [DataField]
+    [DataField, AutoNetworkedField]
     public SoundSpecifier ScanningEndSound = new SoundPathSpecifier("/Audio/Items/Medical/healthscanner.ogg");
 
     /// <summary>
     /// Whether to show up the popup
     /// </summary>
-    [DataField]
+    [DataField, AutoNetworkedField]
     public bool Silent;
 
     /// <summary>
     /// Shitmed Change: The current mode of the scanner.
     /// </summary>
-    [DataField]
+    [DataField, AutoNetworkedField]
     public HealthAnalyzerMode CurrentMode = HealthAnalyzerMode.Body;
 }
