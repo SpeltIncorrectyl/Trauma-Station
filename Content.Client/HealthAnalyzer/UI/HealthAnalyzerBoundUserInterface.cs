@@ -165,6 +165,4 @@ public sealed class HealthAnalyzerBoundUserInterface : BoundUserInterface
 
         _window?.Dispose();
     }
-
-    // Shitmed Change End
 }

@@ -49,7 +49,7 @@ public sealed partial class HealthAnalyzerComponent : Component
     /// The delay between patient health updates
     /// </summary>
     [DataField, AutoNetworkedField]
-    public TimeSpan UpdateInterval = TimeSpan.FromSeconds(1);
+    public TimeSpan UpdateInterval = TimeSpan.FromSeconds(0.25);
 
     /// <summary>
     /// How long it takes to scan someone.

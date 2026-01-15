@@ -66,6 +66,32 @@ public abstract class SharedHealthAnalyzerSystem : EntitySystem
         SubscribeLocalEvent<HealthAnalyzerComponent, DroppedEvent>(OnDropped);
     }
 
+    public override void Update(float frameTime)
+    {
+        var analyzerQuery = EntityQueryEnumerator<HealthAnalyzerComponent>();
+        while (analyzerQuery.MoveNext(out var uid, out var component))
+        {
+            //Update rate limited to 0.25 seconds (it is all done client side so no need to worry about network spam
+            if (component.NextUpdate > _timing.CurTime)
+                continue;
+
+            if (component.ScannedEntity is not { } patient)
+                continue;
+
+            if (Deleted(patient))
+            {
+                StopAnalyzingEntity((uid, component), patient);
+                continue;
+            }
+
+            component.NextUpdate = _timing.CurTime + component.UpdateInterval;
+            Dirty(uid, component);
+            UpdateUi(uid);
+        }
+    }
+
+    protected virtual void UpdateUi(EntityUid entity) {}
+
     /// <summary>
     /// Trigger the doafter for scanning
     /// </summary>

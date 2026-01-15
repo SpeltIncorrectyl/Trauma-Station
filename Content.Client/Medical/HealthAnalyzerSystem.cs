@@ -6,19 +6,10 @@ namespace Content.Client.Medical;
 
 public sealed class HealthAnalyzerSystem : SharedHealthAnalyzerSystem
 {
-    public override void Update(float frameTime)
+    protected override void UpdateUi(EntityUid entity)
     {
-        base.Update(frameTime);
-
-        if (!_timing.IsFirstTimePredicted)
+        if (!_uiSystem.TryGetOpenUi(entity, HealthAnalyzerUiKey.Key, out var bui))
             return;
-
-        var query = EntityQueryEnumerator<HealthAnalyzerComponent>();
-        while (query.MoveNext(out var entity, out _))
-        {
-            if (!_uiSystem.TryGetOpenUi(entity, HealthAnalyzerUiKey.Key, out var bui))
-                continue;
-            bui.Update();
-        }
+        bui.Update();
     }
 }

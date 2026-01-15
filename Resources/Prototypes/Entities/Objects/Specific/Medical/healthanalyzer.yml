@@ -17,8 +17,6 @@
   - type: Item
     heldPrefix: analyzer
     storedRotation: -90
-  - type: ActivatableUI
-    key: enum.HealthAnalyzerUiKey.Key
   - type: UserInterface
     interfaces:
       enum.HealthAnalyzerUiKey.Key:
