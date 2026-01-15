@@ -36,7 +36,7 @@ namespace Content.Shared.Medical;
 /// Requires <c>ItemToggleComponent</c>.
 /// </remarks>
 [RegisterComponent, AutoGenerateComponentPause, NetworkedComponent, AutoGenerateComponentState]
-[Access(typeof(HealthAnalyzerSystem))]
+[Access(typeof(SharedHealthAnalyzerSystem))]
 public sealed partial class HealthAnalyzerComponent : Component
 {
     /// <summary>

@@ -38,24 +38,24 @@ using Content.Shared.Mobs.Systems; // Goobstation
 
 namespace Content.Shared.Medical;
 
-public sealed class HealthAnalyzerSystem : EntitySystem
+public abstract class SharedHealthAnalyzerSystem : EntitySystem
 {
     // <Trauma>
-    [Dependency] private readonly MobThresholdSystem _threshold = default!;
-    [Dependency] private readonly SharedBodySystem _body = default!;
-    [Dependency] private readonly TraumaSystem _trauma = default!;
-    [Dependency] private readonly WoundSystem _wound = default!;
+    [Dependency] protected readonly MobThresholdSystem _threshold = default!;
+    [Dependency] protected readonly SharedBodySystem _body = default!;
+    [Dependency] protected readonly TraumaSystem _trauma = default!;
+    [Dependency] protected readonly WoundSystem _wound = default!;
     // </Trauma>
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly PowerCellSystem _cell = default!;
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly SharedDoAfterSystem _doAfterSystem = default!;
-    [Dependency] private readonly ItemToggleSystem _toggle = default!;
-    [Dependency] private readonly SharedSolutionContainerSystem _solutionContainerSystem = default!;
-    [Dependency] private readonly SharedUserInterfaceSystem _uiSystem = default!;
-    [Dependency] private readonly SharedTransformSystem _transformSystem = default!;
-    [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
-    [Dependency] private readonly SharedBloodstreamSystem _bloodstreamSystem = default!;
+    [Dependency] protected readonly IGameTiming _timing = default!;
+    [Dependency] protected readonly PowerCellSystem _cell = default!;
+    [Dependency] protected readonly SharedAudioSystem _audio = default!;
+    [Dependency] protected readonly SharedDoAfterSystem _doAfterSystem = default!;
+    [Dependency] protected readonly ItemToggleSystem _toggle = default!;
+    [Dependency] protected readonly SharedSolutionContainerSystem _solutionContainerSystem = default!;
+    [Dependency] protected readonly SharedUserInterfaceSystem _uiSystem = default!;
+    [Dependency] protected readonly SharedTransformSystem _transformSystem = default!;
+    [Dependency] protected readonly SharedPopupSystem _popupSystem = default!;
+    [Dependency] protected readonly SharedBloodstreamSystem _bloodstreamSystem = default!;
 
     public override void Initialize()
     {
@@ -129,7 +129,7 @@ public sealed class HealthAnalyzerSystem : EntitySystem
             _toggle.TryDeactivate(uid.Owner);
     }
 
-    private void OpenUserInterface(EntityUid user, EntityUid analyzer)
+    protected virtual void OpenUserInterface(EntityUid user, EntityUid analyzer)
     {
         if (!_uiSystem.HasUi(analyzer, HealthAnalyzerUiKey.Key))
             return;

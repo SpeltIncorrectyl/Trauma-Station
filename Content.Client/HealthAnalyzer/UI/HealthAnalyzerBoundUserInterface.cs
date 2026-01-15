@@ -69,7 +69,7 @@ namespace Content.Client.HealthAnalyzer.UI;
 [UsedImplicitly]
 public sealed class HealthAnalyzerBoundUserInterface : BoundUserInterface
 {
-    private readonly HealthAnalyzerSystem _healthAnalyzer = default!;
+    private readonly SharedHealthAnalyzerSystem _sharedHealthAnalyzer = default!;
     private readonly EntityUid _owner = default!;
     private EntityUid? _target = null;
 
@@ -78,7 +78,7 @@ public sealed class HealthAnalyzerBoundUserInterface : BoundUserInterface
 
     public HealthAnalyzerBoundUserInterface(EntityUid owner, Enum uiKey) : base(owner, uiKey)
     {
-        _healthAnalyzer = EntMan.System<HealthAnalyzerSystem>();
+        _sharedHealthAnalyzer = EntMan.System<SharedHealthAnalyzerSystem>();
         _owner = owner;
     }
 
@@ -94,6 +94,8 @@ public sealed class HealthAnalyzerBoundUserInterface : BoundUserInterface
         if (!EntMan.TryGetComponent<HealthAnalyzerComponent>(_owner, out var comp))
             return;
         _target = comp.ScannedEntity;
+
+        Update();
     }
 
     public override void Update()
@@ -102,7 +104,7 @@ public sealed class HealthAnalyzerBoundUserInterface : BoundUserInterface
         if (_target is null || _window is null)
             return;
 
-        var state = _healthAnalyzer.GetState(_owner, _target.Value, true, HealthAnalyzerMode.Body);
+        var state = _sharedHealthAnalyzer.GetState(_owner, _target.Value, true, HealthAnalyzerMode.Body);
         switch (state)
         {
             case null:
