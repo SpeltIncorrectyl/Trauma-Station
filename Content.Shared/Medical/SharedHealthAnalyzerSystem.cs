@@ -85,7 +85,6 @@ public abstract class SharedHealthAnalyzerSystem : EntitySystem
             }
 
             component.NextUpdate = _timing.CurTime + component.UpdateInterval;
-            Log.Debug("scanner update");
             Dirty(uid, component);
             UpdateUi((uid, component));
         }

@@ -10,7 +10,7 @@ public sealed class HealthAnalyzerSystem : SharedHealthAnalyzerSystem
 
     protected override void UpdateUi(Entity<HealthAnalyzerComponent> entity)
     {
-        if (!_uiSystem.TryGetOpenUi(entity.Owner, HealthAnalyzerUiKey.Key, out var bui) || entity.Comp.ScannedEntity == null)
+        if (!_uiSystem.TryGetOpenUi(entity.Owner, HealthAnalyzerUiKey.Key, out var bui) || entity.Comp.ScannedEntity == null || !_timing.IsFirstTimePredicted)
             return;
         var patientCoordinates = Transform(entity.Comp.ScannedEntity.Value).Coordinates;
         var scannerCoordinates = Transform(entity.Owner).Coordinates;
