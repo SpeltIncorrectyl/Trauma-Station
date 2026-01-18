@@ -7,6 +7,12 @@
     name: store-preset-name-food-vendor
     categories:
     - AutoVendorFood
+  - type: AutomatedVendor
+    slots:
+    - containerId: random-food-products
+      whitelist:
+        components:
+        - Edible
   - type: Sprite
     sprite: Structures/Machines/VendingMachines/snack.rsi
     layers:
@@ -15,6 +21,9 @@
     - state: "normal-unshaded"
       map: ["enum.VendingMachineVisualLayers.BaseUnshaded"]
       shader: unshaded
+  - type: ContainerContainer
+    containers:
+      random-food-products: !type:Container
 
 - type: storeCategory
   id: AutoVendorFood
@@ -23,9 +32,10 @@
 
 - type: listing
   id: AutoVendorRandomFoodProduct
-  name: Burger
+  name: Random Station-Made Food
   description: Purchase a tasty food product placed in here earlier by the station's talented chefs.
-  productEntity: FoodBurgerCheese
+  productEvent: !type:DispenseFromContainerEvent
+    containerId: random-food-products
   icon:
     sprite: Objects/Consumable/Food/burger.rsi
     state: cheese
@@ -35,5 +45,5 @@
   - AutoVendorFood
   restockTime: 0
   conditions:
-  - !type:ContaienrNotEmptyCondition
+  - !type:ContainerNotEmptyCondition
     containerId: random-food-products
