@@ -13,9 +13,15 @@
     sound:
       path: /Audio/Ambience/Objects/vending_machine_hum.ogg
   - type: Sprite
-    sprite: Structures/Machines/VendingMachines/empty.rsi
     snapCardinals: false # Trauma - it looks bad when rotating and it goes diagonal
     noRot: true # Trauma
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.PowerDeviceVisuals.Powered:
+        enum.VendingMachineVisualLayers.BaseUnshaded:
+          True: { visible: true }
+          False: { visible: false }
   - type: Physics
     bodyType: Static
   - type: Transform
@@ -93,9 +99,6 @@
     channels:
     - Binary
   - type: DoAfter
-  - type: Electrified
-    enabled: false
-    usesApcPower: true
   - type: PointLight
     enabled: false
     castShadows: false
@@ -110,4 +113,3 @@
     powerLoad: 200
   - type: StaticPrice
     price: 100
-  - type: Appearance

@@ -5,3 +5,35 @@
   components:
   - type: Store
     name: store-preset-name-food-vendor
+    categories:
+    - AutoVendorFood
+  - type: Sprite
+    sprite: Structures/Machines/VendingMachines/snack.rsi
+    layers:
+    - state: "off"
+      map: ["enum.VendingMachineVisualLayers.Base"]
+    - state: "normal-unshaded"
+      map: ["enum.VendingMachineVisualLayers.BaseUnshaded"]
+      shader: unshaded
+
+- type: storeCategory
+  id: AutoVendorFood
+  name: store-category-auto-vendor-food
+  priority: 0
+
+- type: listing
+  id: AutoVendorRandomFoodProduct
+  name: Burger
+  description: Purchase a tasty food product placed in here earlier by the station's talented chefs.
+  productEntity: FoodBurgerCheese
+  icon:
+    sprite: Objects/Consumable/Food/burger.rsi
+    state: cheese
+  cost:
+    NanoCash: 100
+  categories:
+  - AutoVendorFood
+  restockTime: 0
+  conditions:
+  - !type:ContaienrNotEmptyCondition
+    containerId: random-food-products

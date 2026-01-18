@@ -1,0 +1,5 @@
+- type: stack
+  id: NanoCash
+  name: stack-nanocash
+  icon: { sprite: /Textures/_Trauma/Objects/Economy/NanoCash.rsi, state: icon }
+  spawn: NanoCash

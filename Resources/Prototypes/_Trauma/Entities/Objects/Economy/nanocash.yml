@@ -11,21 +11,11 @@
     shape:
     - 0,0,1,0
     storedOffset: 0,-2
-  - type: Material
-  - type: PhysicalComposition
-    materialComposition:
-      Credit: 1
   - type: StaticPrice
-    price: 0
+    price: 1
   - type: Stack
-    stackType: Credit
+    stackType: NanoCash
     count: 1
-    baseLayer: base
-    layerStates:
-    - icon
-    layerFunction: Threshold
-  - type: StackLayerThreshold
-    thresholds: [] # todo: add more textures for different amounts of cash
   - type: Sprite
     sprite: _Trauma/Objects/Economy/NanoCash.rsi
     layers:
