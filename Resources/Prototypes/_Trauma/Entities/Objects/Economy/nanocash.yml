@@ -85,3 +85,11 @@
     - Ore
     - Paper         # Moth food
   # </Goobstation>
+
+- type: entity
+  parent: NanoCash
+  id: NanoCash10000
+  suffix: 10000
+  components:
+  - type: Stack
+    count: 10000
