@@ -1,0 +1,113 @@
+- type: entity
+  id: BaseAutoVendor
+  parent: BaseMachinePowered
+  name: vending machine
+  description: Just add capitalism!
+  abstract: true
+  components:
+  - type: AmbientOnPowered
+  - type: AmbientSound
+    volume: -9
+    range: 3
+    enabled: false
+    sound:
+      path: /Audio/Ambience/Objects/vending_machine_hum.ogg
+  - type: Sprite
+    sprite: Structures/Machines/VendingMachines/empty.rsi
+    snapCardinals: false # Trauma - it looks bad when rotating and it goes diagonal
+    noRot: true # Trauma
+  - type: Physics
+    bodyType: Static
+  - type: Transform
+    noRot: false # Trauma - EE sprites have directions
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.25,-0.45,0.25,0.45"
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+        density: 200
+  - type: Destructible
+    thresholds:
+    - trigger: # Excess damage, don't do anything
+        !type:DamageTrigger
+        damage: 200
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalGlassBreak
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Breakage"]
+      # no free stuff
+  - type: Repairable
+    doAfterDelay: 8
+  - type: Store
+    name: store-preset-name-base-vendor
+    categories: []
+    currencyWhitelist:
+    - NanoCash
+    sales:
+      enabled: false
+    ownerOnly: false
+  - type: UserInterface
+    interfaces:
+      enum.StoreUiKey.Key:
+        type: StoreBoundUserInterface
+  - type: ActivatableUI
+    key: enum.StoreUiKey.Key
+  - type: ActivatableUIRequiresPower
+  - type: Anchorable
+  - type: Rotatable # Trauma - why not
+  - type: Speech
+    speechVerb: Robotic
+    speechSounds: Vending
+  - type: Vocalizer
+    minVocalizeInterval: 8m
+    maxVocalizeInterval: 10m
+    hideChat: true
+  - type: VocalizerRequiresPower
+  - type: SpookySpeaker
+    messageSet: SpookySpeakerMessagesGeneric
+    speakChance: 0.2
+  - type: IntrinsicRadioReceiver
+  #- type: IntrinsicRadioTransmitter
+  #  channels:
+  #  - Binary # Goobstation - replaced with collective mind
+  - type: ActiveRadio
+    channels:
+    # - Binary # Goobstation - replaced with collective mind
+    - Common
+  # Goobstation
+  - type: CollectiveMind
+    defaultChannel: Binary
+    channels:
+    - Binary
+  - type: DoAfter
+  - type: Electrified
+    enabled: false
+    usesApcPower: true
+  - type: PointLight
+    enabled: false
+    castShadows: false
+    # <Goob>
+    radius: 2
+    energy: 1.5
+    mask: /Textures/Effects/LightMasks/cone.png
+    autoRot: true
+    # </Goob>
+  - type: LitOnPowered
+  - type: ApcPowerReceiver
+    powerLoad: 200
+  - type: StaticPrice
+    price: 100
+  - type: Appearance

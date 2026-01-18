@@ -1,0 +1,7 @@
+- type: entity
+  id: AutoVendorFood
+  parent: BaseAutoVendor
+  name: Food AutoVendor
+  components:
+  - type: Store
+    name: store-preset-name-food-vendor

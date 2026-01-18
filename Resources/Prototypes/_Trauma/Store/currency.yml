@@ -4,3 +4,10 @@
   cash:
     1: SpaceCash
   canWithdraw: true
+
+- type: currency
+  id: NanoCash
+  displayName: store-currency-display-nanocash
+  cash:
+    1: NanoCash
+  canWithdraw: true

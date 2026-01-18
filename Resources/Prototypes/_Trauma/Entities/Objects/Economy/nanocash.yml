@@ -1,0 +1,87 @@
+- type: entity
+  parent: BaseItem
+  id: NanoCash
+  name: NanoCash
+  description: A currency invented by Nanotrasen to pay its workers. Only accepted by Nanotransen. Calling it 'fake' is rather strong language - at the end of the day, isn't all money made up?
+  components:
+  - type: Currency
+    price:
+      NanoCash: 1
+  - type: Item
+    shape:
+    - 0,0,1,0
+    storedOffset: 0,-2
+  - type: Material
+  - type: PhysicalComposition
+    materialComposition:
+      Credit: 1
+  - type: StaticPrice
+    price: 0
+  - type: Stack
+    stackType: Credit
+    count: 1
+    baseLayer: base
+    layerStates:
+    - icon
+    layerFunction: Threshold
+  - type: StackLayerThreshold
+    thresholds: [] # todo: add more textures for different amounts of cash
+  - type: Sprite
+    sprite: _Trauma/Objects/Economy/NanoCash.rsi
+    layers:
+    - state: icon
+      map: ["base"]
+  - type: Physics
+    bodyType: Dynamic
+  - type: Fixtures
+    fixtures:
+      fix1:
+        density: 30
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.35,-0.2,0.25,0.1"
+        mask:
+        - ItemMask
+  - type: Appearance
+  # <Goobstation>
+  - type: Flammable # it's about sending a message
+    fireSpread: true
+    alwaysCombustible: true
+    firestackFade: 0 # keeps burning since high hp
+    damage:
+      types:
+        Heat: 0.5 # burns long
+  - type: FireVisuals
+    sprite: Effects/fire.rsi
+    normalState: fire
+  - type: Damageable
+    damageModifierSet: Wood
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 30
+      behaviors:
+      # doesn't spawn anything for probably obvious reasons
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: Edible
+    solution: food
+    delay: 1
+    forceFeedDelay: 1
+  - type: FlavorProfile
+    flavors:
+    - paper
+  - type: BadFood
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        maxVol: 1
+        reagents:
+        - ReagentId: Fiber
+          Quantity: 1
+  - type: Tag       # Goob Balloon Edit
+    tags:           # Just so it can be picked up by ore bag
+    - Ore
+    - Paper         # Moth food
+  # </Goobstation>
