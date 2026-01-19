@@ -1,9 +1,7 @@
 using Content.Shared.Interaction;
 using Content.Shared.Popups;
-using Content.Shared.Throwing;
 using Content.Shared.Whitelist;
-using Content.Trauma.Server.Store.Condititions;
-using Robust.Shared.Containers;
+using JetBrains.Annotations;
 using Robust.Shared.Containers;
 using Robust.Shared.Utility;
 
@@ -51,4 +49,12 @@ public sealed class AutomatedVendorSystem : EntitySystem
     }
 }
 
-public record struct DispenseFromContainerEvent(string ContainerId, int Count = 1);
+[DataDefinition, UsedImplicitly]
+public sealed partial class DispenseFromContainerEvent : EntityEventArgs
+{
+    [DataField]
+    public string ContainerId = String.Empty;
+
+    [DataField]
+    public int Count = 1;
+}
