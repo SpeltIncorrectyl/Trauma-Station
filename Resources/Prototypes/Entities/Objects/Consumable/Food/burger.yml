@@ -213,6 +213,9 @@
   id: FoodBurgerJelly
   description: Culinary delight..?
   components:
+  - type: Tag
+    tags:
+    - SellableFood
   - type: FlavorProfile
     flavors:
       - bun
@@ -266,6 +269,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
   - type: Item
     inhandVisuals:
       left:
@@ -306,6 +310,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
   - type: Item
     inhandVisuals:
       left:
@@ -348,6 +353,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
   - type: Item
     inhandVisuals:
       left:
@@ -392,6 +398,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
 
 - type: entity
   parent: FoodBurgerBase
@@ -428,6 +435,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
 # Tastes like bun, silver, magic.
 
 - type: entity
@@ -463,6 +471,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
 # Tastes like bun, brains.
 
 - type: entity
@@ -501,6 +510,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
 
 - type: entity
   name: cheese burger
@@ -529,6 +539,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
   - type: Item
     inhandVisuals:
       left:
@@ -573,6 +584,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
   - type: Item
     inhandVisuals:
       left:
@@ -622,6 +634,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
 
 - type: entity
   name: corger #not curger
@@ -647,6 +660,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
   - type: Item
     inhandVisuals:
       left:
@@ -680,6 +694,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
   - type: Item
     inhandVisuals:
       left:
@@ -737,6 +752,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
 
 - type: entity
   parent: FoodBurgerBase
@@ -779,6 +795,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
 # Tastes like bun, duck.
 
 - type: entity
@@ -787,6 +804,9 @@
   name: empowered burger
   description: It's shockingly good, if you live off of electricity that is.
   components:
+  - type: Tag
+    tags:
+    - SellableFood
   - type: Item
     storedOffset: -2,1
     inhandVisuals:
@@ -841,6 +861,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
 # Tastes like bun, fish.
 
 - type: entity
@@ -881,6 +902,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
 
 # Tastes like bun, HEAT.
 
@@ -929,6 +951,7 @@
     tags:
       - ClothMade
       - Meat
+      - SellableFood
 # Tastes like bun, ectoplasm.
 
 - type: entity
@@ -957,6 +980,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
   - type: Item
     inhandVisuals:
       left:
@@ -1005,6 +1029,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
 
 - type: entity
   parent: FoodBurgerBase
@@ -1037,6 +1062,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
   - type: Item
     inhandVisuals:
       left:
@@ -1059,6 +1085,9 @@
   id: FoodBurgerMime
   description: Its taste defies language.
   components:
+  - type: Tag
+    tags:
+    - SellableFood
   - type: FlavorProfile
     flavors:
       - bun
@@ -1112,6 +1141,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
   - type: Item
     inhandVisuals:
       left:
@@ -1145,6 +1175,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
   - type: Item
     inhandVisuals:
       left:
@@ -1181,6 +1212,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
   - type: Item
     inhandVisuals:
       left:
@@ -1205,6 +1237,9 @@
   name: soylent burger
   description: After eating this you have the overwhelming urge to purchase overpriced figurines of superheroes.
   components:
+  - type: Tag
+    tags:
+    - SellableFood
   - type: Item
     storedOffset: 0,1
     inhandVisuals:
@@ -1245,6 +1280,9 @@
   name: spell burger
   description: This is absolutely Ei Nath.
   components:
+  - type: Tag
+    tags:
+    - SellableFood
   - type: Item
     size: Normal
     shape:
@@ -1313,6 +1351,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
 # Tastes like bun, diabetes.
 
 - type: entity
@@ -1321,6 +1360,9 @@
   id: FoodBurgerTofu
   description: What... is that meat?
   components:
+  - type: Tag
+    tags:
+    - SellableFood
   - type: FlavorProfile
     flavors:
       - bun
@@ -1381,6 +1423,7 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood
   - type: Item
     inhandVisuals:
       left:
@@ -1435,3 +1478,4 @@
   - type: Tag
     tags:
     - Meat
+    - SellableFood

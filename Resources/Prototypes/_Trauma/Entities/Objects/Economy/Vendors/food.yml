@@ -11,8 +11,8 @@
     slots:
     - containerId: random-food-products
       whitelist:
-        components:
-        - Edible
+        tags:
+        - SellableFood
   - type: Sprite
     sprite: Structures/Machines/VendingMachines/snack.rsi
     layers:

@@ -26,6 +26,9 @@
   name: organic chocolate bar
   description: Tastes better in Europe, but it's good enough for you.
   components:
+  - type: Tag
+    tags:
+    - SellableFood
   - type: SpawnItemsOnUse
     items:
     - id: FoodPacketChocolateTrash
@@ -67,6 +70,11 @@
   name: organic popcorn
   description: Grown by some jerk on a space station, popped by some jerk on a space station.
   components:
+  - type: Tag
+    tags:
+    - FoodSnack
+    - ReptilianFood
+    - SellableFood
   - type: FlavorProfile
     flavors:
     - corn

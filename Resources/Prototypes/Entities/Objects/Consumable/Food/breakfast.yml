@@ -30,6 +30,9 @@
   name: full american breakfast
   description: A huge plate of protein and carbs, more likely to put you back in bed than get you out of it. Oh, what fresh hell is this?
   components:
+  - type: Tag
+    tags:
+    - SellableFood
   - type: FlavorProfile
     flavors:
       - food
@@ -42,6 +45,9 @@
   name: full english breakfast
   description: A huge plate of protein and carbs, more likely to put you back in bed than get you out of it. Don't mention the war!
   components:
+  - type: Tag
+    tags:
+    - SellableFood
   - type: FlavorProfile
     flavors:
       - food
