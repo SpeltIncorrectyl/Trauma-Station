@@ -5,7 +5,7 @@
   description: Exemplary employees deserve certain privileges, like guns and lawyers.
   components:
   - type: Sprite
-    sprite: Structures/Machines/VendingMachines/snack.rsi
+    sprite: Structures/Machines/VendingMachines/security.rsi
     layers:
     - state: "off"
       map: [ "enum.VendingMachineVisualLayers.Base" ]
@@ -21,12 +21,26 @@
 - type: storeCategory
   id: AutoVendorSecurityGuns
   name: store-category-auto-vendor-security-guns
-  priority: 1
+  priority: 0
 
 - type: storeCategory
   id: AutoVendorSecurityHires
   name: store-category-auto-vendor-security-hires
-  priority: 0
+  priority: 1
+
+- type: listing
+  id: AutoVendorCivilianGunAmmo
+  name: Civilian Firearm Ammo
+  description: Another magazine of ammo for your gun.
+  productEntity: MagazinePistol
+  icon:
+    sprite: Objects/Weapons/Guns/Ammunition/Magazine/Pistol/pistol_mag.rsi
+    state: red-icon
+  cost:
+    NanoCash: 1000 # starting command salary, 2 hours for assistant salary
+  categories:
+  - AutoVendorSecurityGuns
+  restockTime: 0
 
 - type: listing
   id: AutoVendorCivilianGun
@@ -38,20 +52,6 @@
     state: icon
   cost:
     NanoCash: 4000 # 1 hour 30 mins for command salary, 9 hours 30 mins for assistant salary
-  categories:
-  - AutoVendorSecurityGuns
-  restockTime: 0
-
-- type: listing
-  id: AutoVendorCivilianGunAmmo
-  name: Civilian Firearm Ammo
-  description: Another magazine of ammo for your gun.
-  productEntity: MagazinePistol
-  icon:
-    sprite: Objects/Weapons/Guns/Pistols/mk58.rsi
-    state: icon
-  cost:
-    NanoCash: 1000 # starting command salary, 2 hours for assistant salary
   categories:
   - AutoVendorSecurityGuns
   restockTime: 0

@@ -1,7 +1,7 @@
 - type: entity
   parent: BaseRewardRoleSpawner
   id: RewardRoleSpawnerBodyguard
-  name: Bodyguard Hiring Tablet
+  name: bodyguard tablet
   description: A small tablet confirming your hire of a bodyguard. They will arrive shortly.
   components:
   - type: GhostRole
@@ -13,7 +13,7 @@
     raffle:
       settings: default
   - type: GhostRoleMobSpawner
-    prototype: RewardGhostroleBodyguard
+    prototype: RewardRoleBodyguard
 
 - type: entity
   parent: BaseReinforcement
