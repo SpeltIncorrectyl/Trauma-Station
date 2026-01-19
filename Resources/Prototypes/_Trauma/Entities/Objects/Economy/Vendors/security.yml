@@ -1,0 +1,71 @@
+- type: entity
+  parent: BaseAutoVendor
+  id: AutoVendorSecurity
+  name: Justice AutoVendor
+  description: Exemplary employees deserve certain privileges, like guns and lawyers.
+  components:
+  - type: Sprite
+    sprite: Structures/Machines/VendingMachines/snack.rsi
+    layers:
+    - state: "off"
+      map: [ "enum.VendingMachineVisualLayers.Base" ]
+    - state: "normal-unshaded"
+      map: [ "enum.VendingMachineVisualLayers.BaseUnshaded" ]
+      shader: unshaded
+  - type: Store
+    name: store-preset-name-food-vendor
+    categories:
+    - AutoVendorSecurityGuns
+    - AutoVendorSecurityHires
+
+- type: storeCategory
+  id: AutoVendorSecurityGuns
+  name: store-category-auto-vendor-security-guns
+  priority: 1
+
+- type: storeCategory
+  id: AutoVendorSecurityHires
+  name: store-category-auto-vendor-security-hires
+  priority: 0
+
+- type: listing
+  id: AutoVendorCivilianGun
+  name: Civilian Firearm
+  description: A small and somewhat underpowered gun fit for a civilian with deep pockets and a target on their back. License to kill not included.
+  productEntity: WeaponPistolCivilian
+  icon:
+    sprite: Objects/Weapons/Guns/Pistols/mk58.rsi
+    state: icon
+  cost:
+    NanoCash: 4000 # 1 hour 30 mins for command salary, 9 hours 30 mins for assistant salary
+  categories:
+  - AutoVendorSecurityGuns
+  restockTime: 0
+
+- type: listing
+  id: AutoVendorCivilianGunAmmo
+  name: Civilian Firearm Ammo
+  description: Another magazine of ammo for your gun.
+  productEntity: MagazinePistol
+  icon:
+    sprite: Objects/Weapons/Guns/Pistols/mk58.rsi
+    state: icon
+  cost:
+    NanoCash: 1000 # starting command salary, 2 hours for assistant salary
+  categories:
+  - AutoVendorSecurityGuns
+  restockTime: 0
+
+- type: listing
+  id: AutoVendorBodyguard
+  name: Bodyguard
+  description: A hired goon sworn to protect you, armed with only a baseball bat.
+  productEntity: RewardRoleSpawnerBodyguard
+  icon:
+    sprite: Objects/Weapons/Melee/baseball_bat.rsi
+    state: icon
+  cost:
+    NanoCash: 800 # starting command salary, 1 hour 30 mins for assistant salary
+  categories:
+  - AutoVendorSecurityHires
+  restockTime: 0

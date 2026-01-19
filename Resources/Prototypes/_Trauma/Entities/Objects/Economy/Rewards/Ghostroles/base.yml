@@ -1,0 +1,9 @@
+- type: entity
+  parent: BaseItem
+  id: BaseRewardRoleSpawner
+  components:
+  - type: Item
+    size: Normal
+  - type: Sprite
+    sprite: Objects/Devices/tablets.rsi
+    state: tablet

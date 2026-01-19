@@ -1,1 +1,2 @@
-auto-vendor-insertion-message = You insert the ${item} into the ${vendor}.
+store-category-auto-vendor-security-guns = Guns
+store-category-auto-vendor-security-hires = Hires

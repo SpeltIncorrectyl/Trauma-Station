@@ -19,3 +19,6 @@ ghost-role-information-DClass-description = The science team wants to use you fo
 
 ghost-role-information-facehugger-name = facehugger
 ghost-role-information-facehugger-description = A writhing nightmare. The facehugger clings to its victim's face, forcibly inserting a xenomorph fetus.
+
+ghost-role-information-reward-bodyguard-name = Bodyguard
+ghost-role-information-reward-bodyguard-description = A bodyguard hired to protect someone. You are neither armed nor trained.

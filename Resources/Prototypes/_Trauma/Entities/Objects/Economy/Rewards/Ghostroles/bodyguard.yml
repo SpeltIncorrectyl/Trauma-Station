@@ -1,0 +1,54 @@
+- type: entity
+  parent: BaseRewardRoleSpawner
+  id: RewardRoleSpawnerBodyguard
+  name: Bodyguard Hiring Tablet
+  description: A small tablet confirming your hire of a bodyguard. They will arrive shortly.
+  components:
+  - type: GhostRole
+    name: ghost-role-information-reward-bodyguard-name
+    description: ghost-role-information-reward-bodyguard-description
+    rules: ghost-role-information-nonantagonist-rules
+    mindRoles:
+    - MindRoleGhostRoleNeutral
+    raffle:
+      settings: default
+  - type: GhostRoleMobSpawner
+    prototype: RewardGhostroleBodyguard
+
+- type: entity
+  parent: BaseReinforcement
+  id: RewardRoleBodyguard
+  name: ghostrole reward bodyguard
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Loadout
+    prototypes: [RewardRoleBodyguardGear]
+    roleLoadout: [RewardRoleBodyguardLoadout]
+
+- type: startingGear
+  id: RewardRoleBodyguardGear
+  equipment:
+    id: PassengerPDA
+    ears: ClothingHeadsetGrey
+    back: ClothingBackpackPassenger
+    jumpsuit: ClothingUniformJumpsuitColorBlack
+    shoes: ClothingShoesColorBlack
+
+- type: roleLoadout
+  id: RewardRoleBodyguardLoadout
+  groups:
+  - GroupSpeciesBreathTool
+  - Survival
+  - RewardRoleBodyguardLoadoutGroupWeapon
+
+- type: loadoutGroup
+  id: RewardRoleBodyguardLoadoutGroupWeapon
+  hidden: true
+  loadouts:
+  - RewardRoleBodyguardLoadoutWeaponBaseBallBat
+
+- type: loadout
+  id: RewardRoleBodyguardLoadoutWeaponBaseBallBat
+  storage:
+    back:
+    - BaseBallBat
