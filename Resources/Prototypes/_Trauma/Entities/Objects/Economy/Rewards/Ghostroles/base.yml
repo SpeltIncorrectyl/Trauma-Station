@@ -4,6 +4,20 @@
   components:
   - type: Item
     size: Normal
+  - type: ItemToggle
+    onActivate: false
+  - type: RoleHireSpawner
   - type: Sprite
     sprite: Objects/Devices/tablets.rsi
-    state: tablet
+    layers:
+    - state: tablet
+    - state: generic
+      shader: unshaded
+      map: ["enum.ToggleableVisuals.Layer"]
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.ToggleableVisuals.Enabled:
+        enum.ToggleableVisuals.Layer:
+          True: { visible: true }
+          False: { visible: false }

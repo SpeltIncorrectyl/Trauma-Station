@@ -2,18 +2,23 @@
   parent: BaseRewardRoleSpawner
   id: RewardRoleSpawnerBodyguard
   name: bodyguard tablet
-  description: A small tablet confirming your hire of a bodyguard. They will arrive shortly.
+  description: A small tablet confirming your hire of a bodyguard. Activate it to register.
   components:
-  - type: GhostRole
-    name: ghost-role-information-reward-bodyguard-name
-    description: ghost-role-information-reward-bodyguard-description
-    rules: ghost-role-information-nonantagonist-rules
-    mindRoles:
-    - MindRoleGhostRoleNeutral
-    raffle:
-      settings: default
-  - type: GhostRoleMobSpawner
-    prototype: RewardRoleBodyguard
+  - type: RoleHireSpawner
+    objectives:
+    - RewardRoleBodyguardTargetSurvive
+  - type: ComponentToggler
+    components:
+    - type: GhostRole
+      name: ghost-role-information-reward-bodyguard-name
+      description: ghost-role-information-reward-bodyguard-description
+      rules: ghost-role-information-nonantagonist-rules
+      mindRoles:
+      - MindRoleGhostRoleNeutral
+      raffle:
+        settings: default
+    - type: GhostRoleMobSpawner
+      prototype: RewardRoleBodyguard
 
 - type: entity
   parent: BaseReinforcement
@@ -25,14 +30,31 @@
     prototypes: [RewardRoleBodyguardGear]
     roleLoadout: [RewardRoleBodyguardLoadout]
 
+- type: entity
+  parent: BaseKeepAliveObjective
+  id: RewardRoleBodyguardTargetSurvive
+  name: Make sure your boss survives.
+  description: That's your job, isn't it?
+  components:
+  - type: TargetObjective
+    title: objective-condition-bodyguard-protect-title
+  - type: PickBoss
+  - type: Objective
+    difficulty: 1
+    icon:
+      sprite: Objects/Weapons/Medical/healthanalyzer.rsi
+      state: icon
+
 - type: startingGear
   id: RewardRoleBodyguardGear
   equipment:
     id: PassengerPDA
     ears: ClothingHeadsetGrey
-    back: ClothingBackpackPassenger
-    jumpsuit: ClothingUniformJumpsuitColorBlack
+    back: ClothingBackpack
+    jumpsuit: ClothingUniformJumpsuitColorGrey
     shoes: ClothingShoesColorBlack
+    eyes: ClothingEyesGlassesCheapSunglasses
+    head: ClothingHeadHatGreyFlatcap
 
 - type: roleLoadout
   id: RewardRoleBodyguardLoadout
@@ -43,6 +65,7 @@
 
 - type: loadoutGroup
   id: RewardRoleBodyguardLoadoutGroupWeapon
+  name: loadout-group-reward-role-bodyguard-weapon
   hidden: true
   loadouts:
   - RewardRoleBodyguardLoadoutWeaponBaseBallBat
