@@ -57,7 +57,6 @@
       # no free stuff
   - type: Repairable
     doAfterDelay: 8
-  - type: AutomatedVendor
   - type: Store
     name: store-preset-name-base-vendor
     categories: []
