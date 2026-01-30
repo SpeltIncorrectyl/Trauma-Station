@@ -14,4 +14,7 @@ public sealed partial class SurgeryWoundedConditionComponent : Component
 {
     [DataField, AutoNetworkedField]
     public ProtoId<DamageGroupPrototype> DamageGroup = "Brute";
+
+    [DataField, AutoNetworkedField]
+    public LocId? InfeasibleMessage = null;
 }

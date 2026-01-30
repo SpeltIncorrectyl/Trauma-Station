@@ -7,5 +7,9 @@ using Robust.Shared.GameStates;
 
 namespace Content.Shared._Shitmed.Medical.Surgery.Conditions;
 
-[RegisterComponent, NetworkedComponent]
-public sealed partial class SurgeryCloseIncisionConditionComponent : Component;
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
+public sealed partial class SurgeryCloseIncisionConditionComponent : Component
+{
+    [DataField, AutoNetworkedField]
+    public LocId? InfeasibleMessage = "surgery-infeasible-message-no-incision";
+}

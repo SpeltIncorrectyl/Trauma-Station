@@ -28,4 +28,7 @@ public sealed partial class SurgeryOrganOnAddConditionComponent : Component
     // </summary>
     [DataField]
     public bool Inverse = false;
+
+    [DataField]
+    public bool
 }

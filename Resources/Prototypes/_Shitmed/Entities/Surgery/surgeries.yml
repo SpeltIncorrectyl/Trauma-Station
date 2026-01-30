@@ -508,6 +508,7 @@
     - SurgeryStepRepairBruteTissue
     - SurgeryStepSealTendWound
   - type: SurgeryWoundedCondition
+    infeasibleReason: surgery-infeasible-message-cannot-tend-brute
     damageGroup: Brute
 
 - type: entity
@@ -521,6 +522,7 @@
     - SurgeryStepRepairBurnTissue
     - SurgeryStepSealTendWound
   - type: SurgeryWoundedCondition
+    infeasibleReason: surgery-infeasible-message-cannot-tend-burn
     damageGroup: Burn
 
 - type: entity
