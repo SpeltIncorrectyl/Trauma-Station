@@ -31,6 +31,7 @@ public sealed partial class KnowledgeGrantOnUseComponent : Component
     /// After using this entity the skills will be set directly to the values (if they are not already higher).
     /// Most likely to be used this <see cref="SingleUse"/> set to true for the syndicate martial arts scrolls.
     /// </summary>
+    [DataField, AlwaysPushInheritance]
     public Dictionary<EntProtoId, int> InstantKnowledge = new();
 
     /// <summary>
