@@ -90,30 +90,31 @@ public sealed class KnowledgeGrantSystem : EntitySystem
 
         args.Handled = true;
 
-        if (ent.Comp.SingleUse)
+        // no checking if you already had it, don't waste a cqc book if you already know it chud
+        foreach (var (id, level) in ent.Comp.InstantKnowledge)
         {
-            // no checking if you already had it, don't waste a cqc book if you already know it chud
-            foreach (var (id, level) in ent.Comp.Skills)
-            {
-                _knowledge.EnsureKnowledge(brain, id, level);
-            }
-            PredictedQueueDel(ent);
-            if (ent.Comp.SpawnOnDisintegration is not null)
-                PredictedSpawnNextToOrDrop(ent.Comp.SpawnOnDisintegration, user);
-            return;
+            _knowledge.EnsureKnowledge(brain, id, level);
         }
 
         bool hasLearned = false;
-        foreach (var (id, xp) in ent.Comp.Experience)
+        foreach (var (id, xp) in ent.Comp.ExperiencePerUse)
         {
             if (_knowledge.EnsureKnowledge(brain, id) is not { } skill)
                 continue;
 
-            if (!(!ent.Comp.Skills.TryGetValue(id, out var skillCap) || (skill.Comp.LearnedLevel < skillCap || skillCap < 0)))
+            if (!(!ent.Comp.SkillCaps.TryGetValue(id, out var skillCap) || (skill.Comp.LearnedLevel < skillCap || skillCap < 0)))
                 continue;
 
             hasLearned = true;
             _knowledge.AddExperience(skill.AsNullable(), user, xp, skillCap);
+        }
+
+        if (ent.Comp.SingleUse)
+        {
+            PredictedQueueDel(ent);
+            if (ent.Comp.SpawnOnDisintegration is not null)
+                PredictedSpawnNextToOrDrop(ent.Comp.SpawnOnDisintegration, user);
+            return;
         }
 
         args.Repeat = hasLearned;

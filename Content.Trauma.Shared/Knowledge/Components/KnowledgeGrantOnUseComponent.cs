@@ -12,17 +12,26 @@ namespace Content.Trauma.Shared.Knowledge.Components;
 [RegisterComponent, NetworkedComponent]
 public sealed partial class KnowledgeGrantOnUseComponent : Component
 {
-    /// <summary>
-    /// Knowledge cap that can be used.
-    /// </summary>
-    [DataField, AlwaysPushInheritance]
-    public Dictionary<EntProtoId, int> Skills = new();
 
     /// <summary>
     /// Experience that will be added per use.
     /// </summary>
     [DataField, AlwaysPushInheritance]
-    public Dictionary<EntProtoId, int> Experience = new();
+    public Dictionary<EntProtoId, int> ExperiencePerUse = new();
+
+    /// <summary>
+    /// A cap on each skill which limits how much it can be leveled up to by adding experience from this entity.
+    /// </summary>
+    [DataField, AlwaysPushInheritance]
+    public Dictionary<EntProtoId, int> SkillCaps = new();
+
+    /// <summary>
+    /// Knowledge levels which are instantly set when entity is used.
+    /// This is different to experience which slowly accumulates and can then level up skills.
+    /// After using this entity the skills will be set directly to the values (if they are not already higher).
+    /// Most likely to be used this <see cref="SingleUse"/> set to true for the syndicate martial arts scrolls.
+    /// </summary>
+    public Dictionary<EntProtoId, int> InstantKnowledge = new();
 
     /// <summary>
     /// Length of a single doafter to learn this knowledge.

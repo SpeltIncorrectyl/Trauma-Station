@@ -58,7 +58,6 @@
   - type: StaticPrice
     price: 20
   - type: KnowledgeGrantOnUse
-    singleUse: false # crew books are for sharing
   - type: Tag
     tags:
     - Book
@@ -86,11 +85,11 @@
     layers:
     - state: strength
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       StrengthKnowledge: 10
       AthleticsKnowledge: 10
       ToughnessKnowledge: 10
-    experience:
+    experiencePerUse:
       StrengthKnowledge: 3
       AthleticsKnowledge: 3
       ToughnessKnowledge: 3
@@ -109,10 +108,10 @@
     layers:
     - state: melee
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       MeleeKnowledge: 12
       WeaponsKnowledge: 12
-    experience:
+    experiencePerUse:
       MeleeKnowledge: 3
       WeaponsKnowledge: 2
     doAfter: 2
@@ -128,10 +127,10 @@
     layers:
     - state: melee
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       MeleeKnowledge: 26
       WeaponsKnowledge: 26
-    experience:
+    experiencePerUse:
       MeleeKnowledge: 4
       WeaponsKnowledge: 3
     doAfter: 2
@@ -147,10 +146,10 @@
     layers:
     - state: melee
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       MeleeKnowledge: 35
       WeaponsKnowledge: 35
-    experience:
+    experiencePerUse:
       MeleeKnowledge: 5
       WeaponsKnowledge: 4
     doAfter: 2
@@ -168,10 +167,10 @@
     layers:
     - state: shooting
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       ShootingKnowledge: 12
       GunsmithingKnowledge: 12
-    experience:
+    experiencePerUse:
       ShootingKnowledge: 3
       GunsmithingKnowledge: 2
     doAfter: 2
@@ -187,10 +186,10 @@
     layers:
     - state: shooting
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       MeleeKnowledge: 26
       WeaponsKnowledge: 26
-    experience:
+    experiencePerUse:
       MeleeKnowledge: 4
       WeaponsKnowledge: 3
     doAfter: 2
@@ -206,10 +205,10 @@
     layers:
     - state: shooting
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       MeleeKnowledge: 35
       WeaponsKnowledge: 35
-    experience:
+    experiencePerUse:
       MeleeKnowledge: 5
       WeaponsKnowledge: 4
     doAfter: 2
@@ -227,10 +226,10 @@
     layers:
     - state: surgery
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       SurgeryKnowledge: 10
       FirstAidKnowledge: 10
-    experience:
+    experiencePerUse:
       SurgeryKnowledge: 2
       FirstAidKnowledge: 3
     doAfter: 2
@@ -246,10 +245,10 @@
     layers:
     - state: surgery
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       SurgeryKnowledge: 26
       FirstAidKnowledge: 26
-    experience:
+    experiencePerUse:
       SurgeryKnowledge: 3
       FirstAidKnowledge: 4
     doAfter: 2
@@ -267,9 +266,9 @@
     layers:
     - state: magicalliteracy
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       MagicalLiteracyKnowledge: 10
-    experience:
+    experiencePerUse:
       MagicalLiteracyKnowledge: 3
     doAfter: 2
 
@@ -284,9 +283,9 @@
     layers:
     - state: magicalliteracy
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       MagicalLiteracyKnowledge: 26
-    experience:
+    experiencePerUse:
       MagicalLiteracyKnowledge: 4
     doAfter: 2
 
@@ -301,9 +300,9 @@
     layers:
     - state: literacy
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       LiteracyKnowledge: 26
-    experience:
+    experiencePerUse:
       LiteracyKnowledge: 3
     doAfter: 2
 
@@ -318,10 +317,10 @@
     layers:
     - state: janitor
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       ThrowingKnowledge: 26
       JanitorKnowledge: 26
-    experience:
+    experiencePerUse:
       ThrowingKnowledge: 3
       JanitorKnowledge: 3
     doAfter: 2
@@ -337,9 +336,9 @@
     layers:
     - state: TauCeti
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       LanguageTauCetiBasic: 26
-    experience:
+    experiencePerUse:
       LanguageTauCetiBasic: 3
     doAfter: 2
 
@@ -356,9 +355,9 @@
     layers:
     - state: fabrication
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       FabricationKnowledge: 10
-    experience:
+    experiencePerUse:
       FabricationKnowledge: 3
     doAfter: 2
 
@@ -373,9 +372,9 @@
     layers:
     - state: fabrication
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       FabricationKnowledge: 26
-    experience:
+    experiencePerUse:
       FabricationKnowledge: 4
     doAfter: 2
 
@@ -392,9 +391,9 @@
     layers:
     - state: fabrication
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       CarvingKnowledge: 10
-    experience:
+    experiencePerUse:
       CarvingKnowledge: 3
     doAfter: 2
 
@@ -409,9 +408,9 @@
     layers:
     - state: fabrication
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       CarvingKnowledge: 26
-    experience:
+    experiencePerUse:
       CarvingKnowledge: 4
     doAfter: 2
 
@@ -424,9 +423,9 @@
   description: A blueprint with designs for materials.
   components:
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       MaterialsKnowledge: 26
-    experience:
+    experiencePerUse:
       MaterialsKnowledge: 5
     doAfter: 2
   - type: Sprite
@@ -440,9 +439,9 @@
   description: A blueprint with designs for doors.
   components:
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       DoorsKnowledge: 26
-    experience:
+    experiencePerUse:
       DoorsKnowledge: 5
     doAfter: 2
   - type: Sprite
@@ -456,9 +455,9 @@
   description: A blueprint with designs for airlocks.
   components:
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       AirlocksKnowledge: 26
-    experience:
+    experiencePerUse:
       AirlocksKnowledge: 5
     doAfter: 2
   - type: Sprite
@@ -472,9 +471,9 @@
   description: A blueprint with designs for toys.
   components:
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       ToysKnowledge: 26
-    experience:
+    experiencePerUse:
       ToysKnowledge: 5
     doAfter: 2
   - type: Sprite
@@ -488,9 +487,9 @@
   description: A blueprint with designs for bananium structures.
   components:
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       BananiumKnowledge: 26
-    experience:
+    experiencePerUse:
       BananiumKnowledge: 5
     doAfter: 2
   - type: Sprite
@@ -504,9 +503,9 @@
   description: A blueprint with designs for robots.
   components:
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       BotsKnowledge: 26
-    experience:
+    experiencePerUse:
       BotsKnowledge: 5
     doAfter: 2
   - type: Sprite
@@ -520,9 +519,9 @@
   description: A blueprint with designs for furniture.
   components:
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       FurnitureKnowledge: 26
-    experience:
+    experiencePerUse:
       FurnitureKnowledge: 5
     doAfter: 2
   - type: Sprite
@@ -536,9 +535,9 @@
   description: A blueprint with designs for various pieces of infrastructure.
   components:
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       InfrastructureKnowledge: 26
-    experience:
+    experiencePerUse:
       InfrastructureKnowledge: 5
     doAfter: 2
   - type: Sprite
@@ -552,9 +551,9 @@
   description: A blueprint with designs for various electronics.
   components:
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       ElectronicsKnowledge: 26
-    experience:
+    experiencePerUse:
       ElectronicsKnowledge: 5
     doAfter: 2
   - type: Sprite
@@ -568,9 +567,9 @@
   description: A blueprint with designs for walls.
   components:
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       WallsKnowledge: 26
-    experience:
+    experiencePerUse:
       WallsKnowledge: 5
     doAfter: 2
   - type: Sprite
@@ -584,9 +583,9 @@
   description: A blueprint with designs for windows.
   components:
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       WindowsKnowledge: 26
-    experience:
+    experiencePerUse:
       WindowsKnowledge: 5
     doAfter: 2
   - type: Sprite
@@ -600,9 +599,9 @@
   description: A blueprint with designs for blunts.
   components:
   - type: KnowledgeGrantOnUse
-    skills:
+    skillCaps:
       SmokeablesKnowledge: 26
-    experience:
+    experiencePerUse:
       SmokeablesKnowledge: 5
     doAfter: 2
   - type: Sprite
