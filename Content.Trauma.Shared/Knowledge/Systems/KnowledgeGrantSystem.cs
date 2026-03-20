@@ -98,7 +98,8 @@ public sealed class KnowledgeGrantSystem : EntitySystem
                 _knowledge.EnsureKnowledge(brain, id, level);
             }
             PredictedQueueDel(ent);
-            PredictedSpawnNextToOrDrop(ent.Comp.Ash, user);
+            if (ent.Comp.SpawnOnDisintegration is not null)
+                PredictedSpawnNextToOrDrop(ent.Comp.SpawnOnDisintegration, user);
             return;
         }
 

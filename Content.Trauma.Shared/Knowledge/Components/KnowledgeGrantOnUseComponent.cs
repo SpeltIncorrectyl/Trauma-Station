@@ -31,15 +31,16 @@ public sealed partial class KnowledgeGrantOnUseComponent : Component
     public TimeSpan DoAfter = TimeSpan.FromSeconds(5);
 
     /// <summary>
-    /// If true, you will instantly gain all the skills then the item is ashed.
+    /// If true, you will instantly gain all the skills then the item is destroyed.
     /// Only <see cref="Skills"/> is used, <see cref="Experience"/> is ignored.
     /// </summary>
     [DataField]
-    public bool SingleUse = true;
+    public bool SingleUse = false;
 
     /// <summary>
-    /// Ash to spawn.
+    /// Something to spawn after this entity disintegrates after use.
+    /// Only does something is <see cref="SingleUse"/> is set to true.
     /// </summary>
     [DataField]
-    public EntProtoId Ash = "Ash";
+    public EntProtoId? SpawnOnDisintegration;
 }
