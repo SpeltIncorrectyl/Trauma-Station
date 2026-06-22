@@ -7,14 +7,12 @@ namespace Content.Shared.Temperature.Components;
 /// informing others of the current temperature.
 /// </summary>
 [RegisterComponent]
-[AutoGenerateComponentState] // Trauma
 public sealed partial class TemperatureComponent : Component
 {
     /// <summary>
     /// Surface temperature which is modified by the environment.
     /// </summary>
     [DataField, ViewVariables(VVAccess.ReadWrite)]
-    [AutoNetworkedField] // Trauma
     public float CurrentTemperature = Atmospherics.T20C;
 
     /// <summary>

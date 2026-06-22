@@ -85,8 +85,6 @@ public sealed partial class TemperatureSystem : SharedTemperatureSystem
         // </Goob>
 
         RaiseLocalEvent(uid, new OnTemperatureChangeEvent(temperature.CurrentTemperature, lastTemp, delta), broadcast: true);
-
-        Dirty(uid, temperature); // Trauma
     }
 
     public override void ChangeHeat(EntityUid uid, float heatAmount, bool ignoreHeatResistance = false, TemperatureComponent? temperature = null)
