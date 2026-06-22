@@ -9,12 +9,12 @@ using Robust.Shared.Timing;
 
 namespace Content.Trauma.Shared.Temperature;
 
-public sealed partial class ItemSlotHeaterSystem : EntitySystem
+public abstract partial class SharedItemSlotHeaterSystem : EntitySystem
 {
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private ItemSlotsSystem _itemSlots = default!;
-    [Dependency] private SharedTemperatureSystem _temp = default!;
-    [Dependency] private EntityQuery<TemperatureComponent> _temperatureQuery = default!;
+    [Dependency] protected IGameTiming _timing = default!;
+    [Dependency] protected ItemSlotsSystem _itemSlots = default!;
+    [Dependency] protected SharedTemperatureSystem _temp = default!;
+    [Dependency] protected EntityQuery<TemperatureComponent> _temperatureQuery = default!;
 
     public override void Initialize()
     {
@@ -22,8 +22,6 @@ public sealed partial class ItemSlotHeaterSystem : EntitySystem
 
         SubscribeLocalEvent<ItemSlotHeaterComponent, EntInsertedIntoContainerMessage>(OnInserted);
         SubscribeLocalEvent<ItemSlotHeaterComponent, EntRemovedFromContainerMessage>(OnRemoved);
-
-        SubscribeLocalEvent<ItemSlotHeaterComponent, ExaminedEvent>(OnExamine);
     }
 
     public override void Update(float frameTime)
@@ -83,15 +81,6 @@ public sealed partial class ItemSlotHeaterSystem : EntitySystem
             return;
 
         RemCompDeferred<ActiveItemSlotHeaterComponent>(ent);
-    }
-
-    private void OnExamine(Entity<ItemSlotHeaterComponent> ent, ref ExaminedEvent args)
-    {
-        if (_itemSlots.GetItemOrNull(ent.Owner, ent.Comp.Slot) is not { } item || !_temperatureQuery.TryComp(item, out var temp))
-            return;
-
-        // Mispredicts
-        args.PushMarkup(Loc.GetString("item-slot-heater-temp", ("temp", temp.CurrentTemperature.ToString("F1"))));
     }
 
 }
