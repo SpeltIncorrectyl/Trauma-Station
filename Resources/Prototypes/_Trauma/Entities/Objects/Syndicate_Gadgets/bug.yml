@@ -1,0 +1,140 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: entity
+  parent: [ BaseItem, BaseSyndicateContraband ]
+  id: BaseSyndicateBug
+  name: syndicate bug
+  description: A rather conspicious listening device used to spy on important people.
+  abstract: true
+  components:
+  - type: Item
+    size: Normal
+  - type: Sprite
+    sprite: _Trauma/Objects/Syndicate/syndicate_bug.rsi
+    layers:
+    - state: icon
+  - type: Anchorable
+    delay: 5
+  - type: Bug
+
+- type: entity
+  parent: BaseSyndicateBug
+  id: SyndicateBugCmo
+  components:
+  - type: Bug
+    targetArea: AreaOfficeCmo
+
+- type: entity
+  parent: BaseSyndicateBug
+  id: SyndicateBugCE
+  components:
+  - type: Bug
+    targetArea: AreaOfficeCE
+
+- type: entity
+  parent: BaseSyndicateBug
+  id: SyndicateBugHop
+  components:
+  - type: Bug
+    targetArea: AreaOfficeHop
+
+- type: entity
+  parent: BaseSyndicateBug
+  id: SyndicateBugHos
+  components:
+  - type: Bug
+    targetArea: AreaOfficeHos
+
+- type: entity
+  parent: BaseSyndicateBug
+  id: SyndicateBugRd
+  components:
+  - type: Bug
+    targetArea: AreaOfficeRd
+
+- type: entity
+  parent: BaseSyndicateBug
+  id: SyndicateBugQm
+  components:
+  - type: Bug
+    targetArea: AreaOfficeQm
+
+- type: entity
+  parent: [ BaseSyndicateContraband, BoxCardboard ]
+  id: BaseSyndicateBugBox
+  name: syndicate bug kit
+  description: A kit containing a bug and a wrench for your spying purposes. Use the wrench to install the bug.
+  components:
+  - type: Storage
+    maxItemSize: Normal
+    grid:
+    - 0,0,2,1
+  - type: Sprite
+    layers:
+    - state: box_of_doom
+
+- type: entity
+  parent: BaseSyndicateBugBox
+  id: SyndicateBugBoxCmo
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: SyndicateBugCmo
+        - id: Wrench
+
+- type: entity
+  parent: BaseSyndicateBugBox
+  id: SyndicateBugBoxCE
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: SyndicateBugCE
+        - id: Wrench
+
+- type: entity
+  parent: BaseSyndicateBugBox
+  id: SyndicateBugBoxHop
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: SyndicateBugHop
+        - id: Wrench
+
+- type: entity
+  parent: BaseSyndicateBugBox
+  id: SyndicateBugBoxHos
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: SyndicateBugHos
+        - id: Wrench
+
+- type: entity
+  parent: BaseSyndicateBugBox
+  id: SyndicateBugBoxRd
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: SyndicateBugRd
+        - id: Wrench
+
+- type: entity
+  parent: BaseSyndicateBugBox
+  id: SyndicateBugBoxQm
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: SyndicateBugQm
+        - id: Wrench
