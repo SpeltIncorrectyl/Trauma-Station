@@ -450,7 +450,6 @@ public record struct JobBoardCreatedEvent;
 /// <summary>
 /// Event raised by a store on a person's mind to create a job board for them.
 /// </summary>
-[DataDefinition]
 public sealed partial class CreateJobBoardEvent : EntityEventArgs
 {
     /// <summary>
