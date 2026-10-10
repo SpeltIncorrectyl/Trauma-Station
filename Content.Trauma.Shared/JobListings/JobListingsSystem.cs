@@ -15,7 +15,7 @@ namespace Content.Trauma.Shared.JobListings;
 /// <summary>
 /// System that manages the side-jobs for progressive traitor.
 /// </summary>
-public abstract partial class JobListingsSystem : CommonJobListingsSystem
+public abstract partial class JobListingsSystem : EntitySystem
 {
     [Dependency] protected IGameTiming Timing = default!;
     [Dependency] protected SharedContainerSystem Container = default!;
@@ -32,17 +32,14 @@ public abstract partial class JobListingsSystem : CommonJobListingsSystem
     [Dependency] protected EntityQuery<MindComponent> MindQuery = default!;
     [Dependency] protected EntityQuery<ObjectiveComponent> ObjectiveQuery = default!;
     [Dependency] protected EntityQuery<RemoteJobListingsComponent> RemoteQuery = default!;
-    [Dependency] private EntityQuery<JobListingsOwnerComponent> _ownerQuery = default!;
-    [Dependency] private EntityQuery<HiddenJobListingsComponent> _hiddenQuery = default!;
+    [Dependency] protected EntityQuery<UplinkOwnerComponent> UplinkQuery = default!;
+    [Dependency] protected EntityQuery<JobListingsOwnerComponent> OwnerQuery = default!;
 
     /// <summary>
     /// Accept an already assigned job.
     /// </summary>
     public bool AcceptSideJob(Entity<JobListingsComponent> jobBoard, EntityUid actor, EntityUid sideJob)
     {
-        if (IsJobBoardHidden(jobBoard))
-            return false;
-
         if (jobBoard.Comp.AcceptedSideJobs.Count >= jobBoard.Comp.MaximumAcceptedSideJobs ||
             !jobBoard.Comp.AvailableSideJobs.Contains(sideJob) ||
             !SideJobQuery.TryComp(sideJob, out var sideJobComp))
@@ -72,8 +69,6 @@ public abstract partial class JobListingsSystem : CommonJobListingsSystem
     /// </summary>
     public void CancelSideJob(Entity<JobListingsComponent> jobBoard, EntityUid sideJob)
     {
-        if (IsJobBoardHidden(jobBoard))
-            return;
         PredictedDel(sideJob);
     }
 
@@ -82,8 +77,6 @@ public abstract partial class JobListingsSystem : CommonJobListingsSystem
     /// </summary>
     public void ClaimSideJob(Entity<JobListingsComponent> jobBoard, EntityUid actor, EntityUid sideJob)
     {
-        if (IsJobBoardHidden(jobBoard))
-            return;
         if (jobBoard.Comp.Mind is not { } mind || !MindQuery.TryComp(mind, out var mindComp))
             return;
         var progress = Objectives.GetProgress(sideJob, (mind, mindComp));
@@ -183,10 +176,7 @@ public abstract partial class JobListingsSystem : CommonJobListingsSystem
     /// </summary>
     public void OpenUi(EntityUid owner, EntityUid actor)
     {
-        if (!RemoteQuery.TryComp(owner, out var remoteComp))
-            return;
-
-        if (IsJobBoardHidden((owner, remoteComp)))
+        if (!RemoteQuery.HasComp(owner))
             return;
 
         UpdateUi(owner, actor);
@@ -231,7 +221,7 @@ public abstract partial class JobListingsSystem : CommonJobListingsSystem
     {
         if (mind.Comp.OwnedEntity is null)
             return;
-        if (!_ownerQuery.TryComp(mind.Owner, out var jobListingsOwnerComp))
+        if (!OwnerQuery.TryComp(mind.Owner, out var jobListingsOwnerComp))
             return;
         var jobBoard = jobListingsOwnerComp.JobListings;
         if (!JobListingsQuery.TryComp(jobBoard, out var jobBoardComp))
@@ -285,8 +275,6 @@ public abstract partial class JobListingsSystem : CommonJobListingsSystem
         InitUi(remote);
         jobBoard.Comp.Remotes.Add(remote);
         DirtyField(jobBoard.AsNullable(), nameof(JobListingsComponent.Remotes));
-        var ev = new JobListingsVisibilityUpdatedEvent();
-        RaiseLocalEvent(remote, ref ev);
     }
 
     /// <summary>
@@ -294,8 +282,10 @@ public abstract partial class JobListingsSystem : CommonJobListingsSystem
     /// The job board / uplink store is a nullspace entity which would not normally be replicated.
     /// It is supposed to be shared between uplinks and persist if any of them are destroyed so it can't be put in an uplink's container.
     /// </summary>
-    protected void PVSOverrideEntity(EntityUid? mob, EntityUid entity)
+    protected void PVSOverrideEntity(Entity<MindComponent> mind, EntityUid entity)
     {
+        if (mind.Comp.OwnedEntity is not { } mob)
+            return;
         if (!_actorQuery.TryComp(mob, out var actor))
             return;
         _pvsOverride.AddSessionOverride(entity, actor.PlayerSession);
@@ -359,70 +349,6 @@ public abstract partial class JobListingsSystem : CommonJobListingsSystem
         if (newLevel > oldLevel)
             jobBoard.Comp.BonusRefresh = true;
         DirtyFields(jobBoard.AsNullable(), null, nameof(JobListingsComponent.Reputation), nameof(JobListingsComponent.BonusRefresh));
-    }
-
-    /// <summary>
-    /// Sees if a uplink host (pda or implant) is hiding access to its job board.
-    /// </summary>
-    public bool IsJobBoardHidden(Entity<RemoteJobListingsComponent> host)
-    {
-        return _hiddenQuery.HasComp(host.Comp.JobListings);
-    }
-
-    /// <summary>
-    /// Directly checks an uplink to see if the job board should be hidden.
-    /// </summary>
-    public bool IsJobBoardHidden(Entity<JobListingsComponent> uplink)
-    {
-        return _hiddenQuery.HasComp(uplink);
-    }
-
-    public override bool IsRemoteJobBoardHidden(EntityUid remote)
-    {
-        if (!RemoteQuery.TryComp(remote, out var remoteComp))
-            return false;
-        return IsJobBoardHidden((remote, remoteComp));
-    }
-
-    /// <summary>
-    /// Hide a job board from being seen or accessed.
-    /// </summary>
-    public void HideJobBoard(Entity<JobListingsComponent> jobBoard)
-    {
-        AddComp(jobBoard, new HiddenJobListingsComponent());
-        foreach (var remote in jobBoard.Comp.Remotes)
-        {
-            var ev = new JobListingsVisibilityUpdatedEvent();
-            RaiseLocalEvent(remote, ref ev);
-            _pda.UpdatePdaUi(remote);
-        }
-    }
-
-    /// <summary>
-    /// Reveal a hidden job board.
-    /// The progtot job board is hidden by default and must be revealed via an uplink purchase.
-    /// </summary>
-    public void RevealJobBoard(Entity<MindComponent> mind)
-    {
-        if (!_ownerQuery.TryComp(mind, out var jobListingsOwnerComp))
-            return;
-        if (!JobListingsQuery.TryComp(jobListingsOwnerComp.JobListings, out var jobListingsComp))
-            return;
-        // reset refresh time so you don't get free refresh from when the job board was ticking down but not paid for
-        SetRefreshTime((jobListingsOwnerComp.JobListings, jobListingsComp));
-        RemComp<HiddenJobListingsComponent>(jobListingsOwnerComp.JobListings);
-        foreach (var remote in jobListingsComp.Remotes)
-        {
-            var ev = new JobListingsVisibilityUpdatedEvent();
-            RaiseLocalEvent(remote, ref ev);
-            _pda.UpdatePdaUi(remote);
-        }
-    }
-
-    [SubscribeLocalEvent]
-    private void OnRevealJobBoard(Entity<MindComponent> ent, ref RevealJobBoardEvent args)
-    {
-        RevealJobBoard(ent);
     }
 
     [SubscribeLocalEvent]
@@ -512,13 +438,23 @@ public record struct SideJobToolSpawnedEvent(EntityUid Objective, EntityUid Mind
 public record struct SideJobClaimedEvent(EntityUid SideJob);
 
 /// <summary>
-/// Raised on a mind to remove the <see cref="HiddenJobListingsComponent"/> from its associated job board.
-/// </summary>
-[DataDefinition]
-public sealed partial class RevealJobBoardEvent : EntityEventArgs;
-
-/// <summary>
-/// Raised on the job board's remotes when the job board is revealed or hidden.
+/// Raised on an uplink's pre-established remote when a job board is created.
+/// For example, if you injected an uplink implant then the uplink implant becomes a pre-existing remote of your uplink and is associated with your mind.
+/// If you then buy the Job Runner Kit and create a job board this event is raised on the implant so it knows to make the Open Job Board action.
+/// If you injected the implant after already creating the job board then it would add the implant itself on implantation.
 /// </summary>
 [ByRefEvent]
-public record struct JobListingsVisibilityUpdatedEvent;
+public record struct JobBoardCreatedEvent;
+
+/// <summary>
+/// Event raised by a store on a person's mind to create a job board for them.
+/// </summary>
+[DataDefinition]
+public sealed partial class CreateJobBoardEvent : EntityEventArgs
+{
+    /// <summary>
+    /// The prototype for the job board to create.
+    /// </summary>
+    [DataField(required: true)]
+    public EntProtoId<JobListingsComponent> JobBoardProto;
+}

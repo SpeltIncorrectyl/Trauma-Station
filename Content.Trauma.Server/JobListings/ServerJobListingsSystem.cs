@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+using System.Runtime.InteropServices;
+using Content.Server.Database;
 using Content.Shared.Mind;
 using Content.Shared.Objectives.Components;
 using Content.Shared.Random.Helpers;
+using Content.Trauma.Common.JobListings;
 using Content.Trauma.Common.Traitor;
 using Content.Trauma.Shared.JobListings;
 using Robust.Shared.Random;
@@ -159,50 +162,74 @@ public sealed partial class ServerJobListingsSystem : JobListingsSystem
         }
     }
 
+    /// <summary>
+    /// Create a job board for a mind.
+    /// The mind needs the <see cref="UplinkOwnerComponent"/> so this method knows what entities to make into remotes.
+    /// </summary>
+    /// <param name="mind"></param>
+    /// <param name="jobBoardProto"></param>
+    public void CreateJobBoard(Entity<MindComponent> mind, EntProtoId<JobListingsComponent> jobBoardProto)
+    {
+        if (!UplinkQuery.TryComp(mind, out var uplinkComp))
+            return;
+
+        // make job board
+        var jobBoard = Spawn(jobBoardProto);
+        PVSOverrideEntity(mind, jobBoard);
+        var jobBoardComp = JobListingsQuery.Comp(jobBoard);
+
+        // init mind
+        jobBoardComp.Mind = mind.Owner;
+        DirtyField(jobBoard, jobBoardComp, nameof(JobListingsComponent.Mind));
+        AddComp(mind, new JobListingsOwnerComponent { JobListings = jobBoard });
+
+        // init job board
+        FillSideJobs((jobBoard, jobBoardComp));
+        SetRefreshTime((jobBoard, jobBoardComp));
+
+        // link pre-existing remotes
+        foreach (var remote in uplinkComp.Remotes)
+        {
+            LinkRemote((jobBoard, jobBoardComp), remote);
+            var ev = new JobBoardCreatedEvent();
+            RaiseLocalEvent(remote, ref ev);
+        }
+    }
+
     [SubscribeLocalEvent]
     private void OnUplinkCreated(ref UplinkCreatedEvent args)
     {
-        if (Mind.GetMind(args.User) is { } mind)
-            InitUplink(args.Uplink, args.Host, mind);
+        if (Mind.GetMind(args.User) is not { } mind)
+            return;
+
+        AddComp(mind, new UplinkOwnerComponent());
+        var ownerComp = UplinkQuery.Comp(mind);
+        ownerComp.Remotes.Add(args.Host);
+        Dirty(mind, ownerComp);
     }
 
     [SubscribeLocalEvent]
     private void OnUplinkRelinked(ref UplinkRelinkedEvent args)
     {
-        if (!TryComp<JobListingsComponent>(args.Uplink, out var jobBoardComp))
+        if (!UplinkQuery.TryComp(args.Mind, out var uplinkComp))
+            return;
+        if (HasComp<RemoteJobListingsComponent>(args.Host)) // this can be raised multiple times for the same implant if you keep removing and reinjected it
             return;
 
-        // if its an implant that is taken out and put back in again it will raise the event a second time
-        if (RemoteQuery.HasComp(args.Host))
-        {
-            // they still need visiblity updated though
-            var ev = new JobListingsVisibilityUpdatedEvent();
-            RaiseLocalEvent(args.Host, ref ev);
-            return;
-        }
+        uplinkComp.Remotes.Add(args.Host);
+        Dirty(args.Mind, uplinkComp);
 
-        LinkRemote((args.Uplink, jobBoardComp), args.Host);
+        if (!OwnerQuery.TryComp(args.Mind, out var ownerComp))
+            return;
+        if (!JobListingsQuery.TryComp(ownerComp.JobListings, out var jobBoardComp))
+            return;
+
+        LinkRemote((ownerComp.JobListings, jobBoardComp), args.Host);
     }
 
-    private void InitUplink(EntityUid uid, EntityUid host, EntityUid mind, bool startHidden = true)
+    [SubscribeLocalEvent]
+    private void OnCreateJobBoard(Entity<MindComponent> mind, ref CreateJobBoardEvent args)
     {
-        if (!JobListingsQuery.TryComp(uid, out var comp))
-            return;
-
-        // set mind
-        comp.Mind = mind;
-        DirtyField(uid, comp, nameof(JobListingsComponent.Mind));
-        AddComp(mind, new JobListingsOwnerComponent { JobListings = uid });
-        if (MindQuery.TryComp(mind, out var mindComp))
-            PVSOverrideEntity(mindComp.OwnedEntity, uid);
-
-        // link remote
-        LinkRemote((uid, comp), host);
-
-        // init job board
-        FillSideJobs((uid, comp));
-        SetRefreshTime((uid, comp));
-        if (startHidden)
-            HideJobBoard((uid, comp));
+        CreateJobBoard(mind, args.JobBoardProto);
     }
 }

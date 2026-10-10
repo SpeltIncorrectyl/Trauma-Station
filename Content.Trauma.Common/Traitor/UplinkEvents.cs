@@ -17,4 +17,4 @@ public record struct UplinkCreatedEvent(EntityUid User, EntityUid Uplink, Entity
 /// <param name="Uplink">The the entity that represents the uplink itself. Contains the store and the jobboard</param>
 /// <param name="Host">The new host. Could be an implant</param>
 [ByRefEvent]
-public record struct UplinkRelinkedEvent(EntityUid Uplink, EntityUid Host, EntityUid? Mind);
+public record struct UplinkRelinkedEvent(EntityUid Uplink, EntityUid Host, EntityUid Mind);

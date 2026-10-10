@@ -54,8 +54,11 @@ public sealed partial class UplinkSystem : EntitySystem
 
             entity.Comp.Store = uid;
             // <Trauma>
-            var ev = new UplinkRelinkedEvent(uid, entity.Owner, mind);
-            RaiseLocalEvent(ref ev);
+            if (mind is not null)
+            {
+                var ev = new UplinkRelinkedEvent(uid, entity.Owner, mind.Value);
+                RaiseLocalEvent(ref ev);
+            }
             // </Trauma>
             return;
         }
