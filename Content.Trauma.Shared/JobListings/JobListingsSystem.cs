@@ -275,6 +275,7 @@ public abstract partial class JobListingsSystem : EntitySystem
         InitUi(remote);
         jobBoard.Comp.Remotes.Add(remote);
         DirtyField(jobBoard.AsNullable(), nameof(JobListingsComponent.Remotes));
+        _pda.UpdatePdaUi(remote);
     }
 
     /// <summary>
