@@ -1,7 +1,7 @@
 // <Trauma>
 using Content.Trauma.Common.CCVar;
-using Robust.Shared.Configuration;
 using Content.Trauma.Common.JobListings;
+using Robust.Shared.Configuration;
 // </Trauma>
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -201,8 +201,7 @@ namespace Content.Server.PDA
             var address = GetDeviceNetAddress(uid);
             var hasInstrument = HasComp<InstrumentComponent>(uid);
             var showUplink = TryGetUnlockedStore(uid, out _);
-            // Trauma
-            var showJobBoard = showUplink && !HasComp<HiddenJobListingsComponent>(uid);
+            var showJobBoard = showUplink && HasComp<RemoteJobListingsComponent>(uid);
 
             pda.CurrentDate = ServerDate; // DeltaV - PDA date
             UpdateStationName(uid, pda);

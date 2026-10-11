@@ -8,16 +8,21 @@
     sprite: Objects/Specific/Syndicate/telecrystal.rsi
     state: telecrystal
   raiseProductEventOnMind: true
-  productEvent: !type:RevealJobBoardEvent
+  productEvent: !type:CreateJobBoardEvent
+    jobBoardProto: JobRunnerJobBoard
   cost:
     Telecrystal: 50
   categories:
-    - UplinkContractors
+  - UplinkContractors
   conditions:
   - !type:StoreWhitelistCondition
     blacklist:
       tags:
       - NukeOpsUplink
+  - !type:BuyerWhitelistCondition
+    blacklist:
+      components:
+      - SurplusBundle
   - !type:ListingLimitedStockCondition
     stock: 1
   - !type:BuyBeforeCondition
