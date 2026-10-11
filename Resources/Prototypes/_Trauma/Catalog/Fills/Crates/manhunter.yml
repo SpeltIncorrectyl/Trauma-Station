@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: entity
+  parent: CrateSyndicateManhunter
+  id: CrateSyndicateManhunterFilled
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:AllSelector
+        children:
+        - id: ClothingBackpackChameleonFillManhunter
+        - id: ClothingOuterChameleonArmor
+        - id: ContractorBaton
+        - id: Handcuffs
+          amount: 2
+        - id: ScramImplant
+        - id: EmpImplant
+        - id: SoapSyndie

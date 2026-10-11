@@ -1,0 +1,22 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+# like syndicate chameleon kit but without the outer clothing
+- type: entity
+  parent: ClothingBackpackChameleon
+  id: ClothingBackpackChameleonFillManhunter
+  suffix: Fill, Chameleon, Syndie, Manhunter
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: ChameleonAgentPDA
+        - id: ClothingUniformJumpsuitChameleon
+        - id: ClothingNeckChameleon
+        - id: ClothingMaskGasChameleon
+        - id: ClothingHeadHatChameleon
+        - id: ClothingHandsChameleon
+        - id: ClothingEyesChameleon
+        - id: ClothingHeadsetChameleon
+        - id: ClothingShoesChameleon
+        - id: ChameleonControllerImplanter

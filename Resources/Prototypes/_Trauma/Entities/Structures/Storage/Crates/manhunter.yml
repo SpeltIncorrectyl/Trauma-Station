@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: entity
+  parent: CrateGenericSteel
+  id: CrateSyndicateManhunter
+  name: syndicate crate
+  description: A dark steel crate with orange bands and a letter S embossed on the front.
+  components:
+  - type: Icon
+    sprite: _Trauma/Structures/Storage/Crates/manhunter.rsi
+  - type: Sprite
+    sprite: _Trauma/Structures/Storage/Crates/manhunter.rsi

@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-4.0",
+  "copyright": "Taken from https://github.com/Trauma-Station/Trauma-Station/commit/c7429b5d9e016cf322b5d9e6759ed9945681244b, Textures/Structures/Crates/syndicate.rsi, modified by SpeltIncorrectyl.",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "icon"
+    },
+    {
+      "name": "base"
+    },
+    {
+      "name": "closed"
+    },
+    {
+      "name": "open"
+    },
+    {
+      "name": "welded"
+    },
+    {
+      "name": "sparking",
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      ]
+    }
+  ]
+}
