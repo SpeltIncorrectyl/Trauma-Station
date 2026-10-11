@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: entity
+  id: ContractorBaton
+  components:
+  - type: UseDelay
+    delay: 1
+    delays: !Clear
+      telebaton:
+        length: 1
