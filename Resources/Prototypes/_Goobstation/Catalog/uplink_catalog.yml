@@ -215,23 +215,25 @@
 
 # Weaponry
 
-- type: listing
-  id: UplinkContractorBaton
-  name: uplink-contractor-baton-name
-  description: uplink-contractor-baton-desc
-  icon: { sprite: /Textures/_Goobstation/Objects/Weapons/Melee/contractor_baton.rsi, state: uplink }
-  productEntity: BriefcaseWeaponContractorBatonFilled
-  cost:
-    Telecrystal: 35
-  categories:
-  - UplinkWeaponry
-  conditions:
-  - !type:StoreWhitelistCondition
-    blacklist:
-      tags:
-      - NukeOpsUplink
-  - !type:ListingLimitedStockCondition
-    stock: 1
+# <Trauma> - you want the baton buy manhunter kit
+# - type: listing
+#   id: UplinkContractorBaton
+#   name: uplink-contractor-baton-name
+#   description: uplink-contractor-baton-desc
+#   icon: { sprite: /Textures/_Goobstation/Objects/Weapons/Melee/contractor_baton.rsi, state: uplink }
+#   productEntity: BriefcaseWeaponContractorBatonFilled
+#   cost:
+#     Telecrystal: 35
+#   categories:
+#   - UplinkWeaponry
+#   conditions:
+#   - !type:StoreWhitelistCondition
+#     blacklist:
+#       tags:
+#       - NukeOpsUplink
+#   - !type:ListingLimitedStockCondition
+#     stock: 1
+# </Trauma>
 
 - type: listing
   id: UplinkFireAxeFlaming
