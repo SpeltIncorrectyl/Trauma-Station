@@ -13,6 +13,6 @@
         - id: ContractorBaton
         - id: Handcuffs
           amount: 2
-        - id: ScramImplant
-        - id: EmpImplant
+        - id: ScramImplanter
+        - id: EmpImplanter
         - id: SoapSyndie
