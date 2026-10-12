@@ -44,7 +44,7 @@ public sealed class JobListingsRefreshMessage : BoundUserInterfaceMessage;
 /// <summary>
 /// Struct that describes a SideJob entity.
 /// </summary>
-public record struct SideJobInfo(EntityUid Entity, float Progress, string Title, string Description, SpriteSpecifier Icon, string RewardName, int ReputationGain);
+public record struct SideJobInfo(EntityUid Entity, float Progress, string Title, string Description, SpriteSpecifier Icon, string RewardName, int? ReputationGain);
 
 [Serializable, NetSerializable]
 public enum JobListingsUiKey : byte

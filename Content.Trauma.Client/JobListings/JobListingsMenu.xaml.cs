@@ -20,7 +20,7 @@ public sealed partial class JobListingsMenu : FancyWindow
 
     private TimeSpan? _refreshTimerBarTime;
 
-    private int _reputation = 0;
+    private int? _reputation = null;
     private List<SideJobInfo> _availableSideJobs = new();
     private List<SideJobInfo> _acceptedSideJobs = new();
     private bool _bonusRefresh;
@@ -73,7 +73,7 @@ public sealed partial class JobListingsMenu : FancyWindow
 
     private void Update()
     {
-        if (_reputation != _jobBoard.Comp.Reputation)
+        if (_reputation != _jobs.GetReputation(_jobBoard))
             UpdateReputation();
 
         if (!CompareSideJobLists(_availableSideJobs, _jobBoard.Comp.AvailableSideJobs) || !CompareSideJobLists(_acceptedSideJobs, _jobBoard.Comp.AcceptedSideJobs))
@@ -85,9 +85,18 @@ public sealed partial class JobListingsMenu : FancyWindow
 
     private void UpdateReputation()
     {
-        _reputation = _jobBoard.Comp.Reputation;
-        ReputationText.Text = Loc.GetString("job-listings-ui-reputation", ("reputation", _reputation));
-        var title = Loc.GetString($"job-listings-ui-reputation-level-{_jobs.GetReputationLevel(_jobBoard)}");
+        _reputation = _jobs.GetReputation(_jobBoard);
+        if (_reputation is not { } reputation || _jobs.GetReputationLevel(_jobBoard) is not { } level)
+        {
+            ReputationText.Visible = false;
+            ReputationInfo.Visible = false;
+            return;
+        }
+
+        ReputationText.Visible = true;
+        ReputationInfo.Visible = true;
+        ReputationText.Text = Loc.GetString("job-listings-ui-reputation", ("reputation", reputation));
+        var title = Loc.GetString($"job-listings-ui-reputation-level-{level}");
         ReputationInfo.Text = Loc.GetString($"job-listings-ui-reputation-title", ("title", title));
     }
 

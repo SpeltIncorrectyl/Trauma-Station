@@ -34,6 +34,7 @@ public abstract partial class JobListingsSystem : EntitySystem
     [Dependency] protected EntityQuery<RemoteJobListingsComponent> RemoteQuery = default!;
     [Dependency] protected EntityQuery<UplinkOwnerComponent> UplinkQuery = default!;
     [Dependency] protected EntityQuery<JobListingsOwnerComponent> OwnerQuery = default!;
+    [Dependency] private EntityQuery<JobListingsReputationComponent> _reputationQuery = default!;
 
     /// <summary>
     /// Accept an already assigned job.
@@ -97,7 +98,8 @@ public abstract partial class JobListingsSystem : EntitySystem
             RaiseLocalEvent(jobBoard, ref ev);
         }
 
-        GainReputation(jobBoard, sideJobComp.ReputationGain);
+        if (sideJobComp.ReputationGain is { } reputationGain)
+            GainReputation(jobBoard, reputationGain);
         jobBoard.Comp.JobsCompleted += 1;
         DirtyField(jobBoard.AsNullable(), nameof(JobListingsComponent.JobsCompleted));
         PredictedDel(sideJob);
@@ -323,14 +325,28 @@ public abstract partial class JobListingsSystem : EntitySystem
     }
 
     /// <summary>
-    /// Work out the level (and therefore title) the traitor should have based on
+    /// Get's the traitor's reputation.
+    /// Returns null if there is no <see cref="JobListingsReputationComponent"/>>.
     /// </summary>
-    public int GetReputationLevel(Entity<JobListingsComponent> jobBoard)
+    public int? GetReputation(Entity<JobListingsComponent> jobBoard)
     {
+        if (!_reputationQuery.TryComp(jobBoard, out var reputationComp))
+            return null;
+        return reputationComp.Reputation;
+    }
+
+    /// <summary>
+    /// Work out the level (and therefore title) the traitor should have.
+    /// Returns null if there is no <see cref="JobListingsReputationComponent"/>>
+    /// </summary>
+    public int? GetReputationLevel(Entity<JobListingsComponent> jobBoard)
+    {
+        if (!_reputationQuery.TryComp(jobBoard, out var reputationComp))
+            return null;
         var reputationLevel = 0;
-        foreach (var bracket in jobBoard.Comp.ReputationLevels)
+        foreach (var bracket in reputationComp.ReputationLevels)
         {
-            if (jobBoard.Comp.Reputation >= bracket)
+            if (reputationComp.Reputation >= bracket)
                 reputationLevel += 1;
             else
                 break;
@@ -341,15 +357,19 @@ public abstract partial class JobListingsSystem : EntitySystem
     /// <summary>
     /// Increase the traitor's reputation by a certain amount.
     /// Grain a bonus refresh if they level up.
+    /// Does nothing if job board lacks the <see cref="JobListingsReputationComponent"/>.
     /// </summary>
     public void GainReputation(Entity<JobListingsComponent> jobBoard, int reputationGain)
     {
+        if (!_reputationQuery.TryComp(jobBoard, out var reputationComp))
+            return;
         var oldLevel = GetReputationLevel(jobBoard);
-        jobBoard.Comp.Reputation += reputationGain;
+        reputationComp.Reputation += reputationGain;
         var newLevel = GetReputationLevel(jobBoard);
         if (newLevel > oldLevel)
             jobBoard.Comp.BonusRefresh = true;
-        DirtyFields(jobBoard.AsNullable(), null, nameof(JobListingsComponent.Reputation), nameof(JobListingsComponent.BonusRefresh));
+        DirtyField(jobBoard.AsNullable(), nameof(JobListingsComponent.BonusRefresh));
+        Dirty(jobBoard, reputationComp);
     }
 
     [SubscribeLocalEvent]

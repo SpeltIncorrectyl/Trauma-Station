@@ -33,9 +33,16 @@ public sealed partial class ServerJobListingsSystem
                 continue;
 
             var name = _objectives.GetTitle((mind, mindComp), Name(mindComp.OwnedEntity ?? mind));
-            var level = GetReputationLevel((uid, jobBoard));
-            var title = Loc.GetString($"job-listings-ui-reputation-level-{level}");
-            _sb.AppendLine(Loc.GetString("job-listings-round-end", ("name", name), ("count", jobBoard.JobsCompleted), ("reputation", jobBoard.Reputation), ("title", title)));
+            var type = Name(uid);
+            if (GetReputation((uid, jobBoard)) is { } reputation && GetReputationLevel((uid, jobBoard)) is { } level)
+            {
+                var title = Loc.GetString($"job-listings-ui-reputation-level-{level}");
+                _sb.AppendLine(Loc.GetString("job-listings-round-end-with-rep", ("name", name), ("type", type), ("count", jobBoard.JobsCompleted), ("reputation", reputation), ("title", title)));
+            }
+            else
+            {
+                _sb.AppendLine(Loc.GetString("job-listings-round-end", ("name", name), ("type", type), ("count", jobBoard.JobsCompleted)));
+            }
         }
 
         args.Text = _sb.ToString();

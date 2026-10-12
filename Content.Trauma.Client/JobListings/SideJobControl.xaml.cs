@@ -100,7 +100,10 @@ public sealed partial class SideJobControl : Control
         NameLabel.Text = info.Title;
         DescriptionLabel.Text = info.Description;
         ListingTexture.Texture = _sprite.Frame0(info.Icon);
-        RewardLabel.Text = Loc.GetString("job-listings-ui-reward", ("reward", info.RewardName), ("rep", info.ReputationGain));
+        if (info.ReputationGain is { } reputationGain)
+            RewardLabel.Text = Loc.GetString("job-listings-ui-reward-and-rep", ("reward", info.RewardName), ("rep", reputationGain));
+        else
+            RewardLabel.Text = Loc.GetString("job-listings-ui-reward", ("reward", info.RewardName));
         var canClaim = info.Progress >= 0.999f;
         ClaimButton.Disabled = !canClaim;
         ProgressBar.Value = info.Progress;

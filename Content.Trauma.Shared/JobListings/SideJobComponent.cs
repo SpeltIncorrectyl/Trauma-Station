@@ -31,9 +31,10 @@ public sealed partial class SideJobComponent : Component
 
     /// <summary>
     /// How much reputation you gain from completing the mission.
+    /// Is null if no reputation is offered.
     /// </summary>
     [DataField, AutoNetworkedField]
-    public int ReputationGain;
+    public int? ReputationGain;
 
     /// <summary>
     /// The minimum reputation level you must have for this job to be offered.

@@ -62,19 +62,6 @@ public sealed partial class JobListingsComponent : Component
     public EntityUid? Mind;
 
     /// <summary>
-    /// The reputation of the traitor who owns the job board.
-    /// </summary>
-    [DataField, AutoNetworkedField]
-    public int Reputation;
-
-    /// <summary>
-    /// Reputation required to reach each level.
-    /// Level 0 by default, first element in list is rep required for level 1, second element is rep required for level 2, and so on.
-    /// </summary>
-    [DataField, AutoNetworkedField]
-    public List<int> ReputationLevels;
-
-    /// <summary>
     /// The number of jobs this job board has completed.
     /// Tracked for the end of round summary.
     /// </summary>

@@ -89,7 +89,7 @@ public sealed partial class ServerJobListingsSystem : JobListingsSystem
     /// </summary>
     public bool FillSideJobs(Entity<JobListingsComponent> jobBoard)
     {
-        var effectiveLevel = GetReputationLevel(jobBoard);
+        var effectiveLevel = GetReputationLevel(jobBoard) ?? 0;
         var jobsAssignedOfCurrentLevel = 0;
 
         while (CountSideJobs(jobBoard) < jobBoard.Comp.MaximumSideJobs)
