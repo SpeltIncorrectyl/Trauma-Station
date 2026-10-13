@@ -168,11 +168,8 @@ public sealed partial class ServerJobListingsSystem : JobListingsSystem
     /// </summary>
     /// <param name="mind"></param>
     /// <param name="jobBoardProto"></param>
-    public void CreateJobBoard(Entity<MindComponent> mind, EntProtoId<JobListingsComponent> jobBoardProto)
+    public void CreateJobBoard(Entity<MindComponent, UplinkOwnerComponent> mind, EntProtoId<JobListingsComponent> jobBoardProto)
     {
-        if (!UplinkQuery.TryComp(mind, out var uplinkComp))
-            return;
-
         // make job board
         var jobBoard = Spawn(jobBoardProto);
         PVSOverrideEntity(mind, jobBoard);
@@ -188,7 +185,7 @@ public sealed partial class ServerJobListingsSystem : JobListingsSystem
         SetRefreshTime((jobBoard, jobBoardComp));
 
         // link pre-existing remotes
-        foreach (var remote in uplinkComp.Remotes)
+        foreach (var remote in mind.Comp2.Remotes)
         {
             LinkRemote((jobBoard, jobBoardComp), remote);
             var ev = new JobBoardCreatedEvent();
@@ -230,6 +227,8 @@ public sealed partial class ServerJobListingsSystem : JobListingsSystem
     [SubscribeLocalEvent]
     private void OnCreateJobBoard(Entity<MindComponent> mind, ref CreateJobBoardEvent args)
     {
-        CreateJobBoard(mind, args.JobBoardProto);
+        if (!UplinkQuery.TryComp(mind, out var uplinkComp))
+            return;
+        CreateJobBoard((mind.Owner, mind.Comp, uplinkComp), args.JobBoardProto);
     }
 }

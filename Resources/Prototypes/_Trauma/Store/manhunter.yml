@@ -1,0 +1,13 @@
+- type: entity
+  id: ManhunterStore
+  components:
+  - type: Store
+    name: store-preset-name-manhunter-uplink
+    categories:
+    - UplinkPointless
+    currencyWhitelist:
+    - Telecrystal
+    balance:
+      Telecrystal: 0
+    expectedFaction:
+    - Syndicate
