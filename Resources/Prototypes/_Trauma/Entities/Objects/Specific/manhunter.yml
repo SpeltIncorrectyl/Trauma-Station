@@ -1,0 +1,23 @@
+- type: entity
+  name: manhunter credits
+  parent: [BaseItem, BaseSyndicateContraband]
+  id: ManhunterCredit1
+  suffix: 1 MC
+  description: It seems to be pulsing with suspiciously enticing energies. It also seems to be orange.
+  components:
+  - type: Sprite
+    sprite: _Trauma/Objects/Currency/manhunter_credit.rsi
+    state: icon
+  - type: Item
+    sprite: _Trauma/Objects/Currency/manhunter_credit.rsi
+    size: Tiny
+  - type: Stack
+    count: 1
+    stackType: ManhunterCredit
+  - type: StaticPrice
+    price: 0
+  - type: StackPrice
+    price: 1000
+  - type: Currency
+    price:
+      ManhunterCredit: 1

@@ -14,3 +14,4 @@ stack-rev-engine-parts = engine parts
 stack-whetstone = whetstone
 stack-drillhead = drill head
 stack-override-key-components = override key components
+stack-manhunter-credit = manhunter credits

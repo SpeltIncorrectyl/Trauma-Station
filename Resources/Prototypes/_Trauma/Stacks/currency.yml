@@ -5,3 +5,9 @@
   name: stack-credit
   icon: { sprite: /Textures/Objects/Economy/cash.rsi, state: cash }
   spawn: SpaceCashCounterfeit
+
+- type: stack
+  id: ManhunterCredit
+  name: stack-manhunter-credit
+  icon: { sprite: /Textures/_Trauma/Objects/Currency/manhunter_credit.rsi, state: icon }
+  spawn: ManhunterCredit1

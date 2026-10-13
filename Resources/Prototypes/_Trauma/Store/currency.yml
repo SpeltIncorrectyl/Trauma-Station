@@ -13,3 +13,10 @@
   cash:
     1: SpaceCashCounterfeit
   canWithdraw: true
+
+- type: currency
+  id: ManhunterCredit
+  displayName: store-currency-display-manhunter-credit
+  cash:
+    1: ManhunterCredit
+  canWithdraw: true

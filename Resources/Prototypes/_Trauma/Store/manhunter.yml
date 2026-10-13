@@ -3,11 +3,10 @@
   components:
   - type: Store
     name: store-preset-name-manhunter-uplink
-    categories:
-    - UplinkPointless
+    categories: []
     currencyWhitelist:
-    - Telecrystal
+    - ManhunterCredit
     balance:
-      Telecrystal: 0
+      ManhunterCredit: 0
     expectedFaction:
     - Syndicate
