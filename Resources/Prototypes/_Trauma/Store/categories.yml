@@ -28,3 +28,10 @@
   id: UplinkSkills
   name: store-category-skills
   priority: 9
+
+# Manhunter
+
+- type: storeCategory
+  id: ManhunterUplinkEssential
+  name: store-caregory-manhunter-essential
+  priority: 0

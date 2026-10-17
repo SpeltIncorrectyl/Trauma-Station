@@ -3,7 +3,8 @@
   components:
   - type: Store
     name: store-preset-name-manhunter-uplink
-    categories: []
+    categories:
+    - ManhunterUplinkEssential
     currencyWhitelist:
     - ManhunterCredit
     balance:
