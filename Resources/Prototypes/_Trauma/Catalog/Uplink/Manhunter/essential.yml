@@ -13,10 +13,24 @@
 - type: listing
   id: ManhunterUplinkChameleonArmor
   name: manhunter-uplink-chameleon-armor-name
-  description: manhunter-chameleon-armor-desc
-  productEntity: UplinkChameleonArmor
+  description: manhunter-uplink-chameleon-armor-desc
+  productEntity: ClothingOuterChameleonArmor
+  icon: { sprite: /Textures/Clothing/OuterClothing/Armor/security.rsi, state: icon }
   categories:
   - ManhunterUplinkEssential
   conditions:
   - !type:ListingLimitedStockCondition
     stock: 1
+
+- type: listing
+  id: ManhunterUplinkMuteHandcuffs
+  name: manhunter-uplink-mute-handcuffs-name
+  description: manhunter-uplink-mute-handcuffs-desc
+  productEntity: BoxMuteHandcuffs
+  icon: { sprite: /Textures/_Trauma/Objects/Syndicate/mute_handcuffs.rsi, state: handcuff }
+  categories:
+  - ManhunterUplinkEssential
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+

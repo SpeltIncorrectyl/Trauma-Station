@@ -491,6 +491,8 @@ namespace Content.Shared.Cuffs
             // <Trauma>
             cuff.Used = true;
             Dirty(handcuff, cuff);
+            var handcuffEv = new HandcuffAppliedEvent(target);
+            RaiseLocalEvent(handcuff, ref handcuffEv);
             // </Trauma>
             var beforeEv = new BeforeTargetHandcuffedEvent(user);
             RaiseLocalEvent(target, ref beforeEv);
@@ -730,6 +732,11 @@ namespace Content.Shared.Cuffs
             _audio.PlayPredicted(cuff.EndUncuffSound, target, user);
 
             _container.Remove(cuffsToRemove, cuffable.Container);
+
+            // <Trauma>
+            var handcuffEv = new HandcuffRemovedEvent(target);
+            RaiseLocalEvent(cuffsToRemove, ref handcuffEv);
+            // </Trauma>
 
             if (_net.IsServer)
             {

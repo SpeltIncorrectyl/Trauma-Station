@@ -27,3 +27,45 @@
   - type: Handcuff
     breakOnRemove: true
     brokenPrototype: Ash
+
+# making my own protoype because upstream handcuff had security contraband baked into it :(
+- type: entity
+  name: silencing handcuffs
+  description: Utilising secret MI13 technology, these handcuffs prevent speaking by distruping the brain with electrical signals. They also disintegrate after use.
+  id: MuteHandcuffs
+  parent: [ BaseItem, BaseSyndicateContraband ]
+  components:
+  - type: StatusOnCuff
+    proto: StatusEffectMuteHandcuffs
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_Goobstation/Items/other/Handcuffs/pickup.ogg
+      params:
+        volume: -4
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_Goobstation/Items/other/Handcuffs/drop.ogg
+      params:
+        volume: -4
+  - type: Item
+    size: Small
+    storedRotation: 90
+  - type: Handcuff
+    cuffedRSI: _Trauma/Objects/Syndicate/mute_handcuffs.rsi
+    bodyIconState: body-overlay
+    breakOnRemove: true
+    brokenPrototype: Ash
+  - type: Sprite
+    sprite: _Trauma/Objects/Syndicate/mute_handcuffs.rsi
+    state: handcuff
+  - type: Tag
+    tags:
+    - Handcuffs
+  - type: MeleeWeapon
+    wideAnimationRotation: 90
+    resetOnHandSelected: false
+    damage:
+      types:
+        Blunt: 0
+  - type: UseDelay
+    delay: 3

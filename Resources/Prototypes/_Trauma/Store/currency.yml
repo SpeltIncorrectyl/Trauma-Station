@@ -18,5 +18,5 @@
   id: ManhunterCredit
   displayName: store-currency-display-manhunter-credit
   cash:
-    1: ManhunterCredit
+    1: ManhunterCredit1
   canWithdraw: true

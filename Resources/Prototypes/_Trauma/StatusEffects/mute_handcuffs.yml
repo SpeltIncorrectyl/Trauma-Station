@@ -1,0 +1,7 @@
+- type: entity
+  parent: MobStatusEffectDebuff
+  id: StatusEffectMuteHandcuffs
+  components:
+  - type: MutedStatusEffect
+  - type: StatusEffectAlert
+    alert: Muted
