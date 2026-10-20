@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Content.Shared.Cuffs.Components;
+using Content.Shared.Foldable;
 using Content.Shared.Movement.Pulling.Components;
 using Content.Shared.Stealth;
 using Content.Shared.Storage.Components;
@@ -25,6 +26,15 @@ public sealed partial class KidnapBagSystem : EntitySystem
     private void OnOpened(Entity<KidnapBagComponent> ent, ref StorageAfterOpenEvent args)
     {
         _stealth.SetEnabled(ent, false);
+    }
+
+    [SubscribeLocalEvent]
+    private void OnFold(Entity<KidnapBagComponent> ent, ref FoldedEvent args)
+    {
+        if (args.IsFolded)
+            _stealth.SetEnabled(ent, false);
+        else
+            _stealth.SetEnabled(ent, true);
     }
 
     [SubscribeLocalEvent]
