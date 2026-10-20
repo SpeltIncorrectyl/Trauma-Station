@@ -6,3 +6,6 @@ manhunter-uplink-chameleon-armor-desc = A chameleon vest that offers some protec
 
 manhunter-uplink-mute-handcuffs-name = Silencing handcuffs
 manhunter-uplink-mute-handcuffs-desc = An essential tool for any manhunter, these handcuffs prevent your victims from calling for help. You get a box of four for free.
+
+manhunter-uplink-disappearing-body-bag-name = Disappearing Body Bag
+manhunter-uplink-disappearing-body-bag-desc = The big logistical challenge you will face is figuring out how to move your victims across the station unnoticed. Luckily for you, the disappearing body bag turns invisible while in motion. Simply put your victim inside, and drag them through a busy hallway without anyone noticing. It also stops them from escaping their handcuffs while you are pulling the bag.

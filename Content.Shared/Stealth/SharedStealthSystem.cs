@@ -126,7 +126,7 @@ public abstract partial class SharedStealthSystem : EntitySystem
         // Goobstation - Wait before accumulating stealth
         var noMoveTime = (float) component.NoMoveTime.TotalSeconds;
 
-        if (args.Stealth.LastVisibility > limit && args.SecondsSinceUpdate > noMoveTime)
+        if (args.SecondsSinceUpdate > noMoveTime) // Trauma
             args.FlatModifier += (args.SecondsSinceUpdate - noMoveTime) * component.PassiveVisibilityRate;
     }
 

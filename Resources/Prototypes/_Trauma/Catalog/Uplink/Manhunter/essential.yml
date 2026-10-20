@@ -34,3 +34,14 @@
   - !type:ListingLimitedStockCondition
     stock: 1
 
+- type: listing
+  id: ManhunterUplinkDisappearingBodyBag
+  name: manhunter-uplink-disappearing-body-bag-name
+  description: manhunter-uplink-disappearing-body-bag-desc
+  productEntity: DisappearingBodyBag
+  categories:
+  - ManhunterUplinkEssential
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+

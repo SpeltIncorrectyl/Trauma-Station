@@ -1,0 +1,20 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: entity
+  id: DisappearingBodyBag
+  parent: BodyBag
+  name: disappearing body bag
+  description: A person-sized bag that goes invisible when in motion.
+  components:
+  - type: KidnapBag
+  - type: Sprite
+    sprite: _Trauma/Objects/Syndicate/disappearing_body_bag.rsi
+  - type: Stealth
+    enabled: false
+  - type: StealthOnMove
+    passiveVisibilityRate: 0.5
+    movementVisibilityRate: -1
+  - type: EntityStorage
+    openOnMove: false
+  - type: Foldable
+    folded: true
