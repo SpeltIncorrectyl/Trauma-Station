@@ -39,6 +39,7 @@
   name: manhunter-uplink-disappearing-body-bag-name
   description: manhunter-uplink-disappearing-body-bag-desc
   productEntity: DisappearingBodyBag
+  icon: { sprite: /Textures/_Trauma/Objects/Syndicate/disappearing_body_bag.rsi, state: bag }
   categories:
   - ManhunterUplinkEssential
   conditions:
