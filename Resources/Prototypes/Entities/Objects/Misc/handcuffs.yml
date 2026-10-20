@@ -1,7 +1,7 @@
 - type: entity
   name: handcuffs
   description: Used to detain criminals and other assholes.
-  id: Handcuffs
+  id: BaseHandcuffs # Trauma
   parent: [BaseItem, BaseSecurityCommandContraband]
   components:
   # Goobstation edit start
